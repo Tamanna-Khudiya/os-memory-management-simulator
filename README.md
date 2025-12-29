@@ -84,42 +84,47 @@ The following features are **optional and not implemented** in this project:
 > These features can be added as future enhancements if required.
 
 ---
+
 ## 📊 Data Flow
-                                +----------------------+
-                                |  User / CLI Input    |
-                                +----------+-----------+
-                                           |
-                                           v
-                          +----------------+----------------+
-                          |         Main Controller         |
-                          | (Command Parsing & Dispatch)     |
-                          +--------+------------+-----------+
-                                   |            |
-                +------------------+            +------------------+
-                |                                               |
-                v                                               v
-   +-----------------------------+               +------------------------------+
-   | Memory Management Module    |               |   Cache Simulation Module   |
-   | (malloc, free, dump, stats) |               | (Cache hit/miss tracking)    |
-   +--------------+--------------+               +--------------+---------------+
-                  |                                                 |
-                  v                                                 v
-     +----------------------------+                  +-----------------------------+
-     |  Physical Memory Layer     |                  |   Cache Hierarchy (L1/L2)   |
-     | (Standard Allocator Blocks)|                  |   (Hit/Miss Counters)       |
-     +--------------+-------------+                  +-----------------------------+
-                    |                                       
-                    v                                       
-        +-----------------------------+                     
-        |    Statistics Module        |                     
-        |  (Memory + Cache Summary)   |                     
-        +-----------------------------+                     
-                    |                                       
-                    v                                       
-         +----------------------------+
-         |      Display Output        |
-         |  (Memory Layout + Stats)   |
-         +----------------------------+
+
+The following describes how commands and data move through the **OS Memory Management Simulator** during execution.
+
+1. **User Command Input**
+   - User enters a memory management command (e.g., `malloc`, `free`, `dump`, `stats`) through the CLI.
+   - Input is read by `main.cpp`.
+
+2. **Main Controller**
+   - Parses the command and identifies which module should handle it.
+   - Dispatches the request to either the **Memory Management Module** or the **Cache Simulation Module** as necessary.
+
+3. **Memory Management Module**
+   - On `malloc` or `free`:
+     - Processes the request.
+     - Updates the **Physical Memory Layer**.
+     - Adjusts memory blocks accordingly.
+   - On `dump` or `stats`:
+     - Retrieves the current memory layout and usage statistics.
+
+4. **Cache Simulation Module**
+   - On memory access operations:
+     - Simulates cache behavior.
+     - Tracks **cache hits** and **cache misses**.
+     - Updates cache statistics.
+
+5. **Physical Memory Layer**
+   - Stores memory block information:
+     - Block start address
+     - Size
+     - Allocation status
+     - Block ID
+   - Allocates and frees blocks based on module instructions.
+
+6. **Statistics Module**
+   - Combines data from memory and cache operations.
+   - Prepares a summary for display.
+
+7. **Display Output**
+   - Final results (memory layout + statistics) are output to the user.
 
 
 
