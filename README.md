@@ -126,6 +126,47 @@ The following describes how commands and data move through the **OS Memory Manag
 7. **Display Output**
    - Final results (memory layout + statistics) are output to the user.
 
+## 🧩 Core Subsystems
+
+The OS Memory Management Simulator is organized into several core subsystems, each responsible for a specific job in the simulation.  
+Below are the main subsystems that make up this project:
+
+### 1. Application Layer (`main.cpp`)
+- Acts as the **entry point** for the simulator.
+- Accepts commands from the user (via CLI).
+- Parses and routes requests to the appropriate subsystem.
+
+### 2. Memory Management Subsystem
+Handles all memory allocation and deallocation operations:
+- **Initialization** of physical memory.
+- **Dynamic allocation (malloc)** and **deallocation (free)**.
+- **Memory visualization** via `dump`.
+- **Maintenance of memory block metadata** (address, size, block ID, status).
+
+### 3. Physical Memory Subsystem
+- Represents the underlying physical memory in the simulation.
+- Contains a list of **memory blocks**.
+- Handles **block splitting** and **free block reuse**.
+- Supports block metadata updates after allocation/free operations.
+
+### 4. Cache Simulation Subsystem
+Simulates cache behavior for memory access:
+- **Tracks cache hits and cache misses**.
+- Measures and reports cache performance statistics for simulated memory accesses.
+
+### 5. Statistics Subsystem
+- Aggregates information from memory and cache operations.
+- Displays **memory usage statistics**:
+  - Total memory
+  - Used memory
+  - Free memory
+  - Number of allocated blocks
+- Reports **cache performance metrics** (hits/misses).
+
+---
+
+### Subsystem Interaction Flow
+
 
 
 
