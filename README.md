@@ -165,7 +165,21 @@ Simulates cache behavior for memory access:
 
 ---
 
-### Subsystem Interaction Flow
+os-memory-management-simulator/
+│
+├── include/
+│   ├── Memory.h        # Memory management declarations
+│   ├── Cache.h         # Cache simulation declarations
+│
+├── src/
+│   ├── Memory.cpp      # Memory management implementation
+│   ├── Cache.cpp       # Cache simulation implementation
+│   ├── main.cpp        # Program entry point & command handling
+│
+├── .gitignore
+├── LICENSE
+└── README.md
+
 
 
 
