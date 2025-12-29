@@ -85,12 +85,6 @@ The following features are **optional and not implemented** in this project:
 
 ---
 
-## 📊 System Architecture Diagram
-
-The following diagram illustrates the component hierarchy and interaction flow of the **OS Memory Management Simulator** implemented in this project.
-
-
-
 
 
 ## 📂 Project Structure
