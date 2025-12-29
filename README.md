@@ -87,3 +87,14 @@ The following features are **optional and not implemented** in this project:
 
 ## 📂 Project Structure
 
+## 🧩 Component Hierarchy
+
+The OS Memory Management Simulator is designed using a **modular component-based architecture**, where each component has a clear responsibility.  
+This separation improves readability, maintainability, and extensibility of the project.
+
+---
+
+### 🔹 Main Components Overview
+
+
+
