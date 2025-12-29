@@ -1,49 +1,62 @@
 # 🧠 OS Memory Management Simulator
 
-A **C++ based Operating System Memory Management Simulator** that demonstrates how memory allocation, deallocation, and cache behavior work inside an operating system.  
-This project is designed for **educational and academic purposes** to understand core OS memory concepts through simulation.
+An **Operating System Memory Management Simulator** implemented in **C++**, designed to demonstrate how physical memory allocation, deallocation, and cache behavior work inside an operating system.  
+This simulator is intended for **educational and academic purposes**.
 
 ---
 
-## 📌 Features Implemented
+## 📖 Project Overview
 
-### ✅ Physical Memory Simulation
+Memory management is a critical responsibility of an operating system.  
+This project simulates core memory management concepts such as:
+
+- Physical memory representation
+- Dynamic memory allocation and deallocation
+- Memory block visualization
+- Cache memory behavior and statistics
+
+The simulator provides a command-line interface to interact with memory and observe how memory blocks are allocated, freed, and accessed.
+
+---
+
+## ✨ Features Implemented
+
+### 🔹 Physical Memory Simulation
 - Initializes a fixed-size physical memory.
-- Represents memory as a list of blocks.
-- Each block contains:
-  - Start address
+- Memory is divided into blocks.
+- Each block stores:
+  - Starting address
   - Size
-  - Allocation status (free / used)
+  - Allocation status
   - Block ID
 
 ---
 
-### ✅ Dynamic Memory Allocation
-- Supports dynamic allocation similar to `malloc`.
+### 🔹 Dynamic Memory Allocation
+- Simulates `malloc`-like behavior.
 - Allocates memory blocks sequentially.
-- Automatically splits free blocks when partial allocation is required.
+- Splits free blocks when partial allocation occurs.
 
 ---
 
-### ✅ Memory Deallocation
-- Supports freeing allocated memory using block ID.
-- Marks blocks as free after deallocation.
-- Handles basic block merging logic.
+### 🔹 Memory Deallocation
+- Frees allocated memory using block ID.
+- Marks blocks as free.
+- Supports basic memory reuse.
 
 ---
 
-### ✅ Memory Dump / Visualization
-- Displays current memory layout.
-- Clearly shows:
-  - Used blocks
-  - Free blocks
+### 🔹 Memory Dump & Visualization
+- Displays the current memory layout.
+- Shows:
   - Address ranges
+  - Used and free blocks
   - Block IDs
 
 ---
 
-### ✅ Allocation Statistics
-- Tracks:
+### 🔹 Statistics & Monitoring
+- Displays:
   - Total memory
   - Used memory
   - Free memory
@@ -51,30 +64,26 @@ This project is designed for **educational and academic purposes** to understand
 
 ---
 
-### ✅ Multilevel Cache Simulation
+### 🔹 Multilevel Cache Simulation
 - Simulates cache access for memory operations.
 - Tracks:
   - Cache hits
   - Cache misses
-- Helps visualize how cache improves memory access performance.
+- Helps analyze cache efficiency.
 
 ---
 
-## ❌ Features Not Implemented (Yet)
+## ❌ Optional Features (Not Implemented)
 
-- Buddy Allocation System  
-- Virtual Memory Simulation (Paging / Segmentation)
+The following features are **optional and not implemented** in this project:
 
-> These features are optional extensions and can be added later.
+- Buddy Allocation System
+- Virtual Memory Management
+- Paging & Page Replacement Algorithms
+
+> These features can be added as future enhancements if required.
 
 ---
 
-## 📁 Project Structure
-
-
-
-### 1. Compile
-```bash
-g++ src/*.cpp -I include -o memsim
-
+## 📂 Project Structure
 
