@@ -84,6 +84,44 @@ The following features are **optional and not implemented** in this project:
 > These features can be added as future enhancements if required.
 
 ---
+## 📊 Data Flow
+                                +----------------------+
+                                |  User / CLI Input    |
+                                +----------+-----------+
+                                           |
+                                           v
+                          +----------------+----------------+
+                          |         Main Controller         |
+                          | (Command Parsing & Dispatch)     |
+                          +--------+------------+-----------+
+                                   |            |
+                +------------------+            +------------------+
+                |                                               |
+                v                                               v
+   +-----------------------------+               +------------------------------+
+   | Memory Management Module    |               |   Cache Simulation Module   |
+   | (malloc, free, dump, stats) |               | (Cache hit/miss tracking)    |
+   +--------------+--------------+               +--------------+---------------+
+                  |                                                 |
+                  v                                                 v
+     +----------------------------+                  +-----------------------------+
+     |  Physical Memory Layer     |                  |   Cache Hierarchy (L1/L2)   |
+     | (Standard Allocator Blocks)|                  |   (Hit/Miss Counters)       |
+     +--------------+-------------+                  +-----------------------------+
+                    |                                       
+                    v                                       
+        +-----------------------------+                     
+        |    Statistics Module        |                     
+        |  (Memory + Cache Summary)   |                     
+        +-----------------------------+                     
+                    |                                       
+                    v                                       
+         +----------------------------+
+         |      Display Output        |
+         |  (Memory Layout + Stats)   |
+         +----------------------------+
+
+
 
 
 
