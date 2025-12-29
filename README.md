@@ -1,38 +1,77 @@
-# OS Memory Management Simulator
+# 🧠 OS Memory Management Simulator
 
-A C++ based Operating System Memory Management Simulator designed to demonstrate core OS concepts such as dynamic memory allocation and cache behavior.
-
----
-
-## 📌 Features
-
-- Memory initialization
-- Dynamic memory allocation (malloc simulation)
-- Memory deallocation (free simulation)
-- Memory dump visualization
-- Cache access simulation
-- Cache statistics (hits & misses)
-- Modular C++ design
+A **C++ based Operating System Memory Management Simulator** that demonstrates how memory allocation, deallocation, and cache behavior work inside an operating system.  
+This project is designed for **educational and academic purposes** to understand core OS memory concepts through simulation.
 
 ---
 
-## 🗂 Project Structure
+## 📌 Features Implemented
 
-
----
-
-## ⚙️ Technologies Used
-
-- Language: **C++**
-- Concepts:
-  - Operating Systems
-  - Memory Management
-  - Cache Simulation
-  - Data Structures
+### ✅ Physical Memory Simulation
+- Initializes a fixed-size physical memory.
+- Represents memory as a list of blocks.
+- Each block contains:
+  - Start address
+  - Size
+  - Allocation status (free / used)
+  - Block ID
 
 ---
 
-## ▶️ How to Compile & Run
+### ✅ Dynamic Memory Allocation
+- Supports dynamic allocation similar to `malloc`.
+- Allocates memory blocks sequentially.
+- Automatically splits free blocks when partial allocation is required.
+
+---
+
+### ✅ Memory Deallocation
+- Supports freeing allocated memory using block ID.
+- Marks blocks as free after deallocation.
+- Handles basic block merging logic.
+
+---
+
+### ✅ Memory Dump / Visualization
+- Displays current memory layout.
+- Clearly shows:
+  - Used blocks
+  - Free blocks
+  - Address ranges
+  - Block IDs
+
+---
+
+### ✅ Allocation Statistics
+- Tracks:
+  - Total memory
+  - Used memory
+  - Free memory
+  - Number of allocated blocks
+
+---
+
+### ✅ Multilevel Cache Simulation
+- Simulates cache access for memory operations.
+- Tracks:
+  - Cache hits
+  - Cache misses
+- Helps visualize how cache improves memory access performance.
+
+---
+
+## ❌ Features Not Implemented (Yet)
+
+- Buddy Allocation System  
+- Virtual Memory Simulation (Paging / Segmentation)
+
+> These features are optional extensions and can be added later.
+
+---
+
+## 📁 Project Structure
+
+
 
 ### 1. Compile
 ```bash
