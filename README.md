@@ -117,7 +117,26 @@ These are **defined in the project design** but not implemented in this reposito
 
 ---
 
-## 🛠️ Project Structure
 
-A recommended (and roughly followed) layout for the codebase is: 
+---
+
+## 📚 Documentation
+
+This repository is accompanied by a design document: **“Design and Implementation of a Memory Management Simulator”**, which explains: [file:2]
+
+- Memory layout assumptions and data structures.  
+- Allocation strategies and fragmentation handling.  
+- Cache hierarchy, parameters, and replacement policies.  
+- Planned virtual memory model and address translation pipeline. [file:2]
+
+For background theory, the design references standard OS texts such as *Operating System Concepts* and *Modern Operating Systems*, as well as GATE Smashers and GeeksforGeeks resources on memory management. [file:2]
+
+---
+
+## 👩‍💻 Author
+
+- **Tamanna Khudiya** – Developer of this memory management simulator.
+
+Feel free to open issues or pull requests for bug fixes, improvements, or new features like buddy allocation and full virtual memory support.
+
 
