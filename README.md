@@ -1,188 +1,123 @@
 # 🧠 OS Memory Management Simulator
 
-An **Operating System Memory Management Simulator** implemented in **C++**, designed to demonstrate how physical memory allocation, deallocation, and cache behavior work inside an operating system.  
-This simulator is intended for **educational and academic purposes**.
+A **user-space simulator** of core operating system memory-management techniques, focusing on physical memory allocation and multi-level cache behavior.  
+This project is designed as an educational tool to help understand how an OS allocates, frees, and caches memory without requiring kernel-level access. [file:2]
+
+> Note: Features like buddy allocation and full virtual memory paging are considered **future extensions** and are not implemented yet in this project. [file:2]
 
 ---
 
-## 📖 Project Overview
+## 🎯 Overview
 
-Memory management is a critical responsibility of an operating system.  
-This project simulates core memory management concepts such as:
+This simulator models how an operating system manages memory using well-defined data structures and algorithms instead of real hardware. [file:2]  
+All addresses are treated as offsets from zero in a simulated memory space, so the simulator is completely isolated from the host system memory. [file:2]
 
-- Physical memory representation
-- Dynamic memory allocation and deallocation
-- Memory block visualization
-- Cache memory behavior and statistics
+Key goals:
 
-The simulator provides a command-line interface to interact with memory and observe how memory blocks are allocated, freed, and accessed.
-
----
-
-## ✨ Features Implemented
-
-### 🔹 Physical Memory Simulation
-- Initializes a fixed-size physical memory.
-- Memory is divided into blocks.
-- Each block stores:
-  - Starting address
-  - Size
-  - Allocation status
-  - Block ID
+- Understand dynamic memory allocation strategies and fragmentation. [file:2]  
+- Simulate allocation and deallocation at runtime using different strategies. [file:2]  
+- Explore multi-level CPU cache behavior and replacement policies. [file:2]  
+- Practice systems-level design (abstractions, modularity, metrics). [file:2]
 
 ---
 
-### 🔹 Dynamic Memory Allocation
-- Simulates `malloc`-like behavior.
-- Allocates memory blocks sequentially.
-- Splits free blocks when partial allocation occurs.
+## ✨ Implemented Features
+
+### 1. Physical Memory Simulation
+
+- Simulated contiguous block of **physical memory** with configurable size (e.g., 1 KB, 4 KB, etc.). [file:2]  
+- Memory is dynamically divided based on allocation requests rather than fixed partitions. [file:2]  
+- Internal representation uses explicit metadata to track allocated and free blocks. [file:2]
+
+#### Allocation Strategies
+
+The simulator supports a **variable-size allocator** with the following strategies: [file:2]
+
+- **First Fit** – choose the first free block that is large enough. [file:2]  
+- **Best Fit** – choose the smallest free block that can satisfy the request. [file:2]  
+- **Worst Fit** – choose the largest free block to reduce future fragmentation. [file:2]
+
+On each `malloc`-like operation, the simulator:
+
+- Searches for a suitable free block based on the selected strategy. [file:2]  
+- Splits blocks when needed and updates metadata. [file:2]
+
+On each `free` operation, the simulator:
+
+- Marks the block as free. [file:2]  
+- **Automatically coalesces** adjacent free blocks to reduce external fragmentation. [file:2]
+
+#### Metrics and Statistics
+
+The simulator tracks and can report: [file:2]
+
+- Total, used, and free memory.  
+- Largest free block size.  
+- Internal and external fragmentation.  
+- Allocation success / failure rate and memory utilization (where implemented).  
 
 ---
 
-### 🔹 Memory Deallocation
-- Frees allocated memory using block ID.
-- Marks blocks as free.
-- Supports basic memory reuse.
+### 2. Command-Line Interface
+
+The simulator exposes a simple CLI-style interface to interact with the memory model. [file:2]
+
+Typical operations (names/format may differ depending on your implementation):
+
+- Initialize memory:
+  - `memsim init <memory_size>` – set up the physical memory size (e.g., `memsim init 1024`). [file:2]
+- Select allocation strategy:
+  - `memsim set allocator firstfit|bestfit|worstfit`. [file:2]
+- Allocate memory:
+  - `memsim malloc <size>` – allocate a block and print its id and starting address. [file:2]
+- Free memory:
+  - `memsim free <block_id>` – free the block with the given id and coalesce if possible. [file:2]
+- Dump / inspect memory:
+  - `memsim dump` – show allocated and free regions along with basic statistics. [file:2]
+
+You can adapt the exact command names here to match your actual implementation.
 
 ---
 
-### 🔹 Memory Dump & Visualization
-- Displays the current memory layout.
-- Shows:
-  - Address ranges
-  - Used and free blocks
-  - Block IDs
+### 3. Multilevel Cache Simulation
+
+In addition to heap-like memory allocation, the simulator models a **multi-level CPU cache hierarchy** (for example, L1 and L2). [file:2]
+
+Configurable parameters per level: [file:2]
+
+- Cache size (number of lines / bytes).  
+- Block size.  
+- Associativity (direct-mapped or set-associative, depending on your implementation).  
+- Replacement policy: at minimum **FIFO**; optional policies such as LRU/LFU can be added later. [file:2]
+
+For each memory access, the simulator:
+
+- Checks cache levels in order (e.g., L1 → L2 → main memory). [file:2]  
+- Records hits and misses at each level. [file:2]  
+- Updates cache state according to the chosen replacement policy. [file:2]
+
+Reported cache statistics can include: [file:2]
+
+- Hits and misses per cache level.  
+- Hit ratio / miss ratio.  
+- Effective access behavior (miss penalties if modeled).  
 
 ---
 
-### 🔹 Statistics & Monitoring
-- Displays:
-  - Total memory
-  - Used memory
-  - Free memory
-  - Number of allocated blocks
+## 🧩 Planned / Optional Extensions
+
+These are **defined in the project design** but not implemented in this repository yet; they are good candidates for future work. [file:2]
+
+- **Buddy Allocation System**  
+  - Power-of-two memory sizes, free lists per block size, recursive splitting and buddy coalescing. [file:2]
+
+- **Virtual Memory and Paging**  
+  - Virtual address space, page tables, page faults, and page replacement strategies (FIFO, LRU, Clock, etc.). [file:2]  
+  - Integration with cache: virtual address → page table → physical address → cache → memory. [file:2]
 
 ---
 
-### 🔹 Multilevel Cache Simulation
-- Simulates cache access for memory operations.
-- Tracks:
-  - Cache hits
-  - Cache misses
-- Helps analyze cache efficiency.
+## 🛠️ Project Structure
 
----
-
-## ❌ Optional Features (Not Implemented)
-
-The following features are **optional and not implemented** in this project:
-
-- Buddy Allocation System
-- Virtual Memory Management
-- Paging & Page Replacement Algorithms
-
-> These features can be added as future enhancements if required.
-
----
-
-## 📊 Data Flow
-
-The following describes how commands and data move through the **OS Memory Management Simulator** during execution.
-
-1. **User Command Input**
-   - User enters a memory management command (e.g., `malloc`, `free`, `dump`, `stats`) through the CLI.
-   - Input is read by `main.cpp`.
-
-2. **Main Controller**
-   - Parses the command and identifies which module should handle it.
-   - Dispatches the request to either the **Memory Management Module** or the **Cache Simulation Module** as necessary.
-
-3. **Memory Management Module**
-   - On `malloc` or `free`:
-     - Processes the request.
-     - Updates the **Physical Memory Layer**.
-     - Adjusts memory blocks accordingly.
-   - On `dump` or `stats`:
-     - Retrieves the current memory layout and usage statistics.
-
-4. **Cache Simulation Module**
-   - On memory access operations:
-     - Simulates cache behavior.
-     - Tracks **cache hits** and **cache misses**.
-     - Updates cache statistics.
-
-5. **Physical Memory Layer**
-   - Stores memory block information:
-     - Block start address
-     - Size
-     - Allocation status
-     - Block ID
-   - Allocates and frees blocks based on module instructions.
-
-6. **Statistics Module**
-   - Combines data from memory and cache operations.
-   - Prepares a summary for display.
-
-7. **Display Output**
-   - Final results (memory layout + statistics) are output to the user.
-
-## 🧩 Core Subsystems
-
-The OS Memory Management Simulator is organized into several core subsystems, each responsible for a specific job in the simulation.  
-Below are the main subsystems that make up this project:
-
-### 1. Application Layer (`main.cpp`)
-- Acts as the **entry point** for the simulator.
-- Accepts commands from the user (via CLI).
-- Parses and routes requests to the appropriate subsystem.
-
-### 2. Memory Management Subsystem
-Handles all memory allocation and deallocation operations:
-- **Initialization** of physical memory.
-- **Dynamic allocation (malloc)** and **deallocation (free)**.
-- **Memory visualization** via `dump`.
-- **Maintenance of memory block metadata** (address, size, block ID, status).
-
-### 3. Physical Memory Subsystem
-- Represents the underlying physical memory in the simulation.
-- Contains a list of **memory blocks**.
-- Handles **block splitting** and **free block reuse**.
-- Supports block metadata updates after allocation/free operations.
-
-### 4. Cache Simulation Subsystem
-Simulates cache behavior for memory access:
-- **Tracks cache hits and cache misses**.
-- Measures and reports cache performance statistics for simulated memory accesses.
-
-### 5. Statistics Subsystem
-- Aggregates information from memory and cache operations.
-- Displays **memory usage statistics**:
-  - Total memory
-  - Used memory
-  - Free memory
-  - Number of allocated blocks
-- Reports **cache performance metrics** (hits/misses).
-
----
-
-
-
-  ## 📁 Project Structure
-
-The table below describes the directory structure of the **OS Memory Management Simulator** along with the purpose of each component.
-
-| Directory / File | Description |
-|------------------|-------------|
-| `include/` | Contains header files defining classes and data structures |
-| `include/Memory.h` | Declares physical memory blocks and allocation functions |
-| `include/Cache.h` | Declares cache simulation and statistics interfaces |
-| `src/` | Contains implementation source files |
-| `src/main.cpp` | Application entry point and command-line interface |
-| `src/Memory.cpp` | Implements memory allocation, deallocation, and dump logic |
-| `src/Cache.cpp` | Implements cache simulation and hit/miss tracking |
-| `.gitignore` | Specifies files and folders ignored by Git |
-| `LICENSE` | MIT License file |
-| `README.md` | Project documentation |
-
----
+A recommended (and roughly followed) layout for the codebase is: [file:2]
 
