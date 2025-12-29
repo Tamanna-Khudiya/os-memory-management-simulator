@@ -18,3 +18,24 @@ A C++ based Operating System Memory Management Simulator designed to demonstrate
 
 ## 🗂 Project Structure
 
+
+---
+
+## ⚙️ Technologies Used
+
+- Language: **C++**
+- Concepts:
+  - Operating Systems
+  - Memory Management
+  - Cache Simulation
+  - Data Structures
+
+---
+
+## ▶️ How to Compile & Run
+
+### 1. Compile
+```bash
+g++ src/*.cpp -I include -o memsim
+
+
