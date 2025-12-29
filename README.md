@@ -165,27 +165,39 @@ Simulates cache behavior for memory access:
 
 ---
 
-os-memory-management-simulator/
-│
-├── include/
-│   ├── Memory.h        # Memory management declarations
-│   ├── Cache.h         # Cache simulation declarations
-│
-├── src/
-│   ├── Memory.cpp      # Memory management implementation
-│   ├── Cache.cpp       # Cache simulation implementation
-│   ├── main.cpp        # Program entry point & command handling
-│
-├── .gitignore
-├── LICENSE
-└── README.md
-
-
-
-
-
 
 ## 📂 Project Structure
+
+---
+
+### 📌 Directory Explanation
+
+- **include/**  
+  Contains all header files defining data structures and class interfaces used in the simulator.
+
+- **src/**  
+  Contains the implementation of memory management logic, cache simulation, and the main controller.
+
+- **main.cpp**  
+  Acts as the application layer:
+  - Reads user commands
+  - Dispatches operations to memory or cache modules
+  - Displays output and statistics
+
+- **README.md**  
+  Provides complete documentation including architecture, data flow, and usage instructions.
+
+- **LICENSE**  
+  Specifies the project’s open-source license.
+
+---
+
+### 📝 Notes
+
+- The project intentionally avoids complex build systems (like CMake) to keep compilation simple.
+- Optional subsystems such as **Buddy Allocation** and **Virtual Memory** are not included in this implementation.
+- The structure is designed to be easily extensible for future enhancements.
+
 
 
 
