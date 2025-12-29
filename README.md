@@ -85,6 +85,33 @@ The following features are **optional and not implemented** in this project:
 
 ---
 
+
+## 📊 System Architecture Diagram
+
+The following diagram represents the high-level architecture of the **OS Memory Management Simulator** and shows how different components interact with each other.
+
+```mermaid
+flowchart TD
+    A[User / CLI Input] --> B[Main Controller]
+
+    B --> C[Memory Management Module]
+    B --> D[Cache Simulation Module]
+
+    C --> C1[Physical Memory]
+    C --> C2[Memory Blocks]
+    C --> C3[Allocation Logic]
+    C --> C4[Deallocation Logic]
+
+    D --> D1[Cache Access Handler]
+    D --> D2[Cache Hit Counter]
+    D --> D3[Cache Miss Counter]
+
+    C --> E[Statistics Module]
+    D --> E
+
+    E --> F[Output / Reports]
+
+
 ## 📂 Project Structure
 
 
