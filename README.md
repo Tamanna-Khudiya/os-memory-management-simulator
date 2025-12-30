@@ -189,7 +189,6 @@ Output to User
 <h2>📂 Project Structure</h2>
 
 ```text
-<pre>
 os-memory-management-simulator/
 ├── docs/
 │   └── Design_and_Implementation_of_a_Memory_Management_Simulator.pdf
@@ -209,7 +208,7 @@ os-memory-management-simulator/
 ├── LICENSE
 ├── memsim.exe             # Compiled executable (Windows)
 └── README.md              # Project documentation
-</pre>
+
 ```
 
 
@@ -341,4 +340,26 @@ for each block:
 
 ```
 
+### Cache Access
+
+The simulator includes a **basic cache access model** to demonstrate how memory accesses
+interact with a cache layer before reaching physical memory.
+
+The cache is modeled as a simple structure that tracks whether a requested memory
+address is already cached (**cache hit**) or must be fetched from memory (**cache miss**).
+
+---
+
+#### Cache Read Operation — **O(1)**
+
+```text
+if address exists in cache:
+    record cache hit
+    return cached data
+else:
+    record cache miss
+    load data from memory
+    insert data into cache
+    return data
+```
 
