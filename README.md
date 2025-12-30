@@ -272,7 +272,7 @@ os-memory-management-simulator/
   Emphasis on clarity and simplicity for educational understanding.
 
 
-  ## 📦 Dependencies
+## 📦 Dependencies
 
 ### Build Dependencies
 
