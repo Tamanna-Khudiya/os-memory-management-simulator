@@ -3,6 +3,9 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
+#include <queue>
+
 
 struct CacheLine {
     int address;
@@ -34,6 +37,21 @@ public:
     MultiLevelCache();
     void access(int address);
     void stats();
+};
+
+class FIFOCache {
+private:
+    int capacity;                              
+    std::unordered_map<int, int> cache;        
+    std::queue<int> order;                     
+
+public:
+   
+    FIFOCache(int cap);
+
+    int get(int key);
+    void put(int key, int value);
+    void display() const;
 };
 
 #endif
