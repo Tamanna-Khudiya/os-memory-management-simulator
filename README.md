@@ -154,23 +154,16 @@ These are **defined in the project design** but not implemented in this reposito
 ## 🔄 Data Flow
 
 The following sequence describes how a memory request is handled:
-User Command
-↓
-Command Validation
-↓
-Allocation / Deallocation Request
-↓
-Allocator Strategy Selection
-↓
-Free Block Search
-↓
-Block Split / Merge
-↓
-Memory State Update
-↓
-Statistics Update
-↓
-Output to User
+  - step: User Command
+  - step: Command Validation
+  - step: Allocation / Deallocation Request
+  - step: Allocator Strategy Selection
+  - step: Free Block Search
+  - step: Block Split / Merge
+  - step: Memory State Update
+  - step: Statistics Update
+  - step: Output to User
+
 
 ---
 
