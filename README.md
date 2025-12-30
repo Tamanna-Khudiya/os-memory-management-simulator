@@ -2,7 +2,6 @@
 
 A **C++ based Operating System Memory Management Simulator** that models how an OS manages physical memory allocation and deallocation using classical allocation strategies.
 This project focuses on algorithmic correctness, fragmentation analysis, and system-level design, without implementing a real kernel.
-
 ---
 ## 🎯 Overview
 
