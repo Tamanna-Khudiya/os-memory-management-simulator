@@ -188,6 +188,7 @@ Output to User
 
 <h2>📂 Project Structure</h2>
 
+```text
 <pre>
 os-memory-management-simulator/
 ├── docs/
@@ -209,7 +210,7 @@ os-memory-management-simulator/
 ├── memsim.exe             # Compiled executable (Windows)
 └── README.md              # Project documentation
 </pre>
-
+```
 
 
 
