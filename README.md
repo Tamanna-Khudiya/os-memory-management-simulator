@@ -174,6 +174,8 @@ The following sequence describes how a memory request is handled:
 
 ---
 
+
+##📂 Project Structure
 os-memory-management-simulator/
 ├── src/
 │   ├── allocator.cpp
@@ -187,5 +189,7 @@ os-memory-management-simulator/
 │   └── allocator_tests.txt
 ├── Makefile
 └── README.md
+
+
 ---
 
