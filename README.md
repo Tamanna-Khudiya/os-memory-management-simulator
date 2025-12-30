@@ -115,25 +115,47 @@ These are **defined in the project design** but not implemented in this reposito
 ---
 
 
----
-
-## 📚 Documentation
-
-This repository is accompanied by a design document: **“Design and Implementation of a Memory Management Simulator”**, which explains: [file:2]
-
-- Memory layout assumptions and data structures.  
-- Allocation strategies and fragmentation handling.  
-- Cache hierarchy, parameters, and replacement policies.  
-- Planned virtual memory model and address translation pipeline. [file:2]
-
-For background theory, the design references standard OS texts such as *Operating System Concepts* and *Modern Operating Systems*, as well as GATE Smashers and GeeksforGeeks resources on memory management. [file:2]
 
 ---
 
-## 👩‍💻 Author
+## 🧩 Core Subsystems
 
-- **Tamanna Khudiya** – Developer of this memory management simulator.
+### 1️⃣ Physical Memory Manager
+- Simulates a contiguous region of physical memory
+- Maintains a list of memory blocks
+- Tracks allocated and free regions
+- Ensures memory blocks never overlap
 
-Feel free to open issues or pull requests for bug fixes, improvements, or new features like buddy allocation and full virtual memory support.
+---
 
+### 2️⃣ Allocation Engine
+- Implements First Fit, Best Fit, and Worst Fit algorithms
+- Searches free blocks based on selected strategy
+- Splits blocks when allocating smaller portions
+- Merges adjacent free blocks after deallocation
+
+---
+
+### 3️⃣ Fragmentation & Statistics Module
+- Computes internal fragmentation
+- Computes external fragmentation
+- Tracks:
+  - Total memory
+  - Used memory
+  - Free memory
+  - Memory utilization
+  - Allocation success and failure
+
+---
+
+### 4️⃣ Command-Line Interface (CLI)
+- Accepts user commands interactively
+- Displays allocation results and memory layout
+- Provides real-time statistics and diagnostics
+
+---
+
+## 🔄 Data Flow
+
+The following sequence describes how a memory request is handled:
 
