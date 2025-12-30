@@ -176,20 +176,26 @@ The following sequence describes how a memory request is handled:
 
 
 ## 📂 Project Structure
-
 os-memory-management-simulator/
-├── src/
-│   ├── allocator.cpp
-│   ├── allocator.h
-│   ├── memory_block.cpp
-│   ├── memory_block.h
-│   └── main.cpp
 ├── docs/
-│   └── Design and Implementation of a Memory Management Simulator.pdf
-├── tests/
-│   └── allocator_tests.txt
-├── Makefile
-└── README.md
+│   └── Design_and_Implementation_of_a_Memory_Management_Simulator.pdf
+├── include/
+│   ├── allocator.h        # Memory allocation algorithms
+│   ├── cache.h            # Cache-related structures (basic simulation)
+│   ├── memory.h           # Physical memory representation
+│   └── stats.h            # Statistics and fragmentation tracking
+├── src/
+│   ├── allocator.cpp     # Allocation and deallocation logic
+│   ├── cache.cpp         # Cache simulation implementation
+│   ├── memory.cpp        # Physical memory management
+│   ├── stats.cpp         # Statistics computation
+│   └── main.cpp          # Application entry point
+├── tests/                # Test cases and validation files
+├── .gitignore
+├── LICENSE
+├── memsim.exe            # Compiled executable (Windows)
+└── README.md             # Project documentation
+
 
 
 ---
