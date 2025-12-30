@@ -222,7 +222,7 @@ os-memory-management-simulator/
 5. **Behavioral Model**  
    This project is a **memory management simulator**, not an actual operating system kernel.
 
----
+
 
 ### Invariants
 
@@ -241,7 +241,7 @@ os-memory-management-simulator/
 - **Unique Block IDs**  
   Every allocated memory block has a unique identifier.
 
----
+
 
 ### Development Approach
 
