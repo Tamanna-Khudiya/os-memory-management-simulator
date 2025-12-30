@@ -166,3 +166,26 @@ The following sequence describes how a memory request is handled:
 
 ---
 
+## ⚙️ Installation
+
+### Prerequisites
+- C++17 compatible compiler (g++)
+- GNU Make (optional but recommended)
+
+---
+
+os-memory-management-simulator/
+├── src/
+│   ├── allocator.cpp
+│   ├── allocator.h
+│   ├── memory_block.cpp
+│   ├── memory_block.h
+│   └── main.cpp
+├── docs/
+│   └── Design and Implementation of a Memory Management Simulator.pdf
+├── tests/
+│   └── allocator_tests.txt
+├── Makefile
+└── README.md
+---
+
