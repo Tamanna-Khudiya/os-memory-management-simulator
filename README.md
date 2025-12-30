@@ -114,10 +114,6 @@ These are **defined in the project design** but not implemented in this reposito
 
 ---
 
-
-
----
-
 ## 🧩 Core Subsystems
 
 ### 1️⃣ Physical Memory Manager
@@ -158,4 +154,23 @@ These are **defined in the project design** but not implemented in this reposito
 ## 🔄 Data Flow
 
 The following sequence describes how a memory request is handled:
+User Command
+↓
+Command Validation
+↓
+Allocation / Deallocation Request
+↓
+Allocator Strategy Selection
+↓
+Free Block Search
+↓
+Block Split / Merge
+↓
+Memory State Update
+↓
+Statistics Update
+↓
+Output to User
+
+---
 
