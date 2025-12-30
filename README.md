@@ -175,7 +175,9 @@ The following sequence describes how a memory request is handled:
 ---
 
 
-## 📂 Project Structure
+<h2>📂 Project Structure</h2>
+
+<pre>
 os-memory-management-simulator/
 ├── docs/
 │   └── Design_and_Implementation_of_a_Memory_Management_Simulator.pdf
@@ -195,6 +197,7 @@ os-memory-management-simulator/
 ├── LICENSE
 ├── memsim.exe             # Compiled executable (Windows)
 └── README.md              # Project documentation
+</pre>
 
 
 ---
