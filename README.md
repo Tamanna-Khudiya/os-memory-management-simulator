@@ -185,17 +185,16 @@ os-memory-management-simulator/
 │   ├── memory.h           # Physical memory representation
 │   └── stats.h            # Statistics and fragmentation tracking
 ├── src/
-│   ├── allocator.cpp     # Allocation and deallocation logic
-│   ├── cache.cpp         # Cache simulation implementation
-│   ├── memory.cpp        # Physical memory management
-│   ├── stats.cpp         # Statistics computation
-│   └── main.cpp          # Application entry point
-├── tests/                # Test cases and validation files
+│   ├── allocator.cpp      # Allocation and deallocation logic
+│   ├── cache.cpp          # Cache simulation implementation
+│   ├── memory.cpp         # Physical memory management
+│   ├── stats.cpp          # Statistics computation
+│   └── main.cpp           # Application entry point
+├── tests/                 # Test cases and validation files
 ├── .gitignore
 ├── LICENSE
-├── memsim.exe            # Compiled executable (Windows)
-└── README.md             # Project documentation
-
+├── memsim.exe             # Compiled executable (Windows)
+└── README.md              # Project documentation
 
 
 ---
