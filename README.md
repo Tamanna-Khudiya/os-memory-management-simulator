@@ -1,16 +1,14 @@
 # 🧠 OS Memory Management Simulator
 
-A **user-space simulator** of core operating system memory-management techniques, focusing on physical memory allocation and multi-level cache behavior.  
-This project is designed as an educational tool to help understand how an OS allocates, frees, and caches memory without requiring kernel-level access.
-
+A **C++ based Operating System Memory Management Simulator** that models how an OS manages physical memory allocation and deallocation using classical allocation strategies.
+This project focuses on algorithmic correctness, fragmentation analysis, and system-level design, without implementing a real kernel.
 
 ---
 
 ## 🎯 Overview
 
-This simulator models how an operating system manages memory using well-defined data structures and algorithms instead of real hardware.
-All addresses are treated as offsets from zero in a simulated memory space, so the simulator is completely isolated from the host system memory.
-
+Memory management is one of the most fundamental responsibilities of an operating system. This project simulates the core behavior of physical memory management in a controlled user-space environment.
+The simulator maintains a contiguous block of physical memory, processes dynamic allocation requests using different allocation strategies, and tracks fragmentation and utilization metrics.
 Key goals:
 
 - Understand dynamic memory allocation strategies and fragmentation.
