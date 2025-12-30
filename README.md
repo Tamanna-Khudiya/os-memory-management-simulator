@@ -153,7 +153,6 @@ These are **defined in the project design** but not implemented in this reposito
 
 ## 🔄 Data Flow
 
-The following sequence describes how a memory request is handled:
   User Command
      ↓
   Command Validation
