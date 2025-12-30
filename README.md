@@ -3,7 +3,7 @@
 A **C++ based Operating System Memory Management Simulator** that models how an OS manages physical memory allocation and deallocation using classical allocation strategies.
 This project focuses on algorithmic correctness, fragmentation analysis, and system-level design, without implementing a real kernel. 
 
----
+
 
 ## 🎯 Overview
 
@@ -16,7 +16,7 @@ Key goals:
 - Explore multi-level CPU cache behavior and replacement policies.
 - Practice systems-level design (abstractions, modularity, metrics).
 
----
+
 
 ## ✨ Implemented Features
 
@@ -53,7 +53,7 @@ The simulator tracks and can report:
 - Internal and external fragmentation.  
 - Allocation success / failure rate and memory utilization (where implemented).  
 
----
+
 
 ### 2. Command-Line Interface
 
@@ -74,7 +74,7 @@ Typical operations (names/format may differ depending on your implementation):
 
 You can adapt the exact command names here to match your actual implementation.
 
----
+
 
 ### 3. Multilevel Cache Simulation
 
@@ -99,7 +99,7 @@ Reported cache statistics can include:
 - Hit ratio / miss ratio.  
 - Effective access behavior (miss penalties if modeled).  
 
----
+
 
 ## 🧩 Planned / Optional Extensions
 
@@ -112,7 +112,7 @@ These are **defined in the project design** but not implemented in this reposito
   - Virtual address space, page tables, page faults, and page replacement strategies (FIFO, LRU, Clock, etc.). 
   - Integration with cache: virtual address → page table → physical address → cache → memory. 
 
----
+
 
 ## 🧩 Core Subsystems
 
@@ -122,7 +122,7 @@ These are **defined in the project design** but not implemented in this reposito
 - Tracks allocated and free regions
 - Ensures memory blocks never overlap
 
----
+
 
 ### 2️⃣ Allocation Engine
 - Implements First Fit, Best Fit, and Worst Fit algorithms
@@ -130,7 +130,7 @@ These are **defined in the project design** but not implemented in this reposito
 - Splits blocks when allocating smaller portions
 - Merges adjacent free blocks after deallocation
 
----
+
 
 ### 3️⃣ Fragmentation & Statistics Module
 - Computes internal fragmentation
@@ -142,14 +142,14 @@ These are **defined in the project design** but not implemented in this reposito
   - Memory utilization
   - Allocation success and failure
 
----
+
 
 ### 4️⃣ Command-Line Interface (CLI)
 - Accepts user commands interactively
 - Displays allocation results and memory layout
 - Provides real-time statistics and diagnostics
 
----
+
 
 ## 🔄 Data Flow
 The following sequence describes how a memory request is handled:
@@ -164,7 +164,7 @@ The following sequence describes how a memory request is handled:
   - step 9: Output to User
 
 
----
+
 
 ## ⚙️ Installation
 
@@ -172,7 +172,7 @@ The following sequence describes how a memory request is handled:
 - C++17 compatible compiler (g++)
 - GNU Make (optional but recommended)
 
----
+
 
 
 <h2>📂 Project Structure</h2>
@@ -200,7 +200,7 @@ os-memory-management-simulator/
 </pre>
 
 
----
+
 
 
 ## 🎨 Design Principles
