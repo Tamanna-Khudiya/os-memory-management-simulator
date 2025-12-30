@@ -202,3 +202,62 @@ os-memory-management-simulator/
 
 ---
 
+
+## 🎨 Design Principles
+
+### Core Assumptions
+
+1. **Simulated Memory**  
+   All memory is simulated in user space. No real memory pointers are returned to the user.
+
+2. **Zero-Based Addressing**  
+   All memory addresses are treated as offsets starting from `0`.
+
+3. **External Metadata**  
+   Allocation metadata (block size, status, IDs) is stored separately from the simulated memory.
+
+4. **Deterministic Behavior**  
+   Given the same sequence of commands, the simulator always produces the same results.
+
+5. **Behavioral Model**  
+   This project is a **memory management simulator**, not an actual operating system kernel.
+
+---
+
+### Invariants
+
+- **Memory Conservation**  
+  Total memory size remains constant throughout execution.
+
+- **No Overlaps**  
+  Allocated and free memory blocks never overlap.
+
+- **Complete Coverage**  
+  The sum of all block sizes always equals the total memory size.
+
+- **Consistent State**  
+  Internal data structures remain valid after every operation.
+
+- **Unique Block IDs**  
+  Every allocated memory block has a unique identifier.
+
+---
+
+### Development Approach
+
+- **Incremental Implementation**  
+  Features were added step-by-step and tested individually.
+
+- **Correctness First**  
+  Algorithmic correctness was prioritized over performance optimizations.
+
+- **Modular Design**  
+  Clear separation between allocation logica, memory representation, cache handling, and statistics.
+
+- **Test-Driven Validation**  
+  Allocation and deallocation behavior was tested using multiple scenarios.
+
+- **Readable & Maintainable Code**  
+  Emphasis on clarity and simplicity for educational understanding.
+
+
