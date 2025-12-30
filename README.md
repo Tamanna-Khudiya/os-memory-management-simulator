@@ -348,7 +348,6 @@ interact with a cache layer before reaching physical memory.
 The cache is modeled as a simple structure that tracks whether a requested memory
 address is already cached (**cache hit**) or must be fetched from memory (**cache miss**).
 
----
 
 #### Cache Read Operation — **O(1)**
 
@@ -362,4 +361,6 @@ else:
     insert data into cache
     return data
 ```
+
+
 
