@@ -296,3 +296,48 @@ No external third-party libraries are required.
 
 
 
+## 🔍 Key Algorithms
+
+### Physical Memory Allocation
+
+The simulator implements classical **dynamic memory allocation strategies**.
+All strategies operate on a list of memory blocks and run in **O(n)** time,
+where *n* is the number of memory blocks.
+
+
+
+#### First Fit — **O(n)**
+Allocates the **first free block** that is large enough to satisfy the request.
+
+```text
+for each block:
+    if block is free and block.size >= requested_size:
+        allocate from this block
+        break
+```
+
+#### Best Fit — **O(n)**
+Allocates the **smallest free block** that can satisfy the request.
+
+```text
+best = null
+for each block:
+    if block is free and block.size >= requested_size:
+        if best is null or block.size < best.size:
+            best = block
+
+```
+
+#### Worst Fit — **O(n)**
+Allocates the **largest available free block**.
+
+```text
+worst = null
+for each block:
+    if block is free and block.size >= requested_size:
+        if worst is null or block.size > worst.size:
+            worst = block
+
+```
+
+
