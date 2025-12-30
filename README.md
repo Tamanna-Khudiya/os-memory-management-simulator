@@ -272,3 +272,27 @@ os-memory-management-simulator/
   Emphasis on clarity and simplicity for educational understanding.
 
 
+  ## 📦 Dependencies
+
+### Build Dependencies
+
+- **CMake 3.10+**
+- **C++17 compliant compiler** (GCC / Clang / MSVC)
+
+
+
+### Runtime Dependencies
+
+- **C++ Standard Library (STL)**  
+  - `<vector>` — Dynamic arrays for memory block storage  
+  - `<list>` — Linked list representation of memory blocks  
+  - `<unordered_map>` — Tracking allocated blocks by ID  
+  - `<cstddef>, <cstdint>` — Standard data types  
+  - `<iostream>` — Input/output and logging  
+  - `<cmath>` — Mathematical utilities (e.g., size calculations)
+
+
+No external third-party libraries are required.
+
+
+
