@@ -3,7 +3,6 @@
 A **user-space simulator** of core operating system memory-management techniques, focusing on physical memory allocation and multi-level cache behavior.  
 This project is designed as an educational tool to help understand how an OS allocates, frees, and caches memory without requiring kernel-level access.
 
-> Note: Features like buddy allocation and full virtual memory paging are considered **future extensions** and are not implemented yet in this project.
 
 ---
 
