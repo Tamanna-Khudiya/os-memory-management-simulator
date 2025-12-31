@@ -474,3 +474,83 @@ Overall, the test cases provide confidence in the correctness of the
 simulator for typical memory management scenarios.
 
 
+## 🧾 Example Test Commands and Expected Output
+
+The following examples demonstrate typical test cases used to validate
+memory allocation, deallocation, fragmentation handling, and statistics
+reporting.
+
+---
+
+### Test Case 1: Initialize Memory and Allocate Blocks
+
+**Commands**
+```text
+init memory 1024
+set allocator first_fit
+malloc 100
+malloc 200
+```
+
+**Expected Output**
+```text
+Memory initialized with size 1024 bytes
+Allocator set to First Fit
+
+Allocated block id=1 at address=0x0000 (size=100)
+Allocated block id=2 at address=0x0064 (size=200)
+```
+
+### Test Case 2: Free a Block and Verify Coalescing
+
+**Commands**
+```text
+free 1
+dump memory
+```
+
+**Expected Output**
+```text
+Block id=1 freed successfully
+
+[0x0000 - 0x0063] FREE
+[0x0064 - 0x012B] USED (id=2)
+[0x012C - 0x03FF] FREE
+```
+
+### Test Case 3: Reuse Freed Memory
+**Commands**
+```text
+malloc 50
+dump memory
+```
+
+**Expected Output**
+```text
+Allocated block id=3 at address=0x0000 (size=50)
+
+[0x0000 - 0x0031] USED (id=3)
+[0x0032 - 0x0063] FREE
+[0x0064 - 0x012B] USED (id=2)
+[0x012C - 0x03FF] FREE
+```
+
+### Test Case 4: Fragmentation and Statistics
+**Commands**
+```text
+stats
+```
+
+**Expected Output**
+```text
+Total Memory: 1024 bytes
+Used Memory: 250 bytes
+Free Memory: 774 bytes
+
+Internal Fragmentation: 0 bytes
+External Fragmentation: <calculated percentage>
+Memory Utilization: <calculated percentage>
+```
+
+
+
