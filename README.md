@@ -1,24 +1,27 @@
 # 🧠 OS Memory Management Simulator
 
-A **C++ based Operating System Memory Management Simulator** that models how an OS manages physical memory allocation and deallocation using classical allocation strategies.
-This project focuses on algorithmic correctness, fragmentation analysis, and system-level design, without implementing a real kernel. 
+A **C++ based Operating System Memory Management Simulator** that demonstrates how an operating system manages **physical memory allocation, deallocation, fragmentation, and basic cache behavior**.
 
+This project is intended for **educational purposes** and simulates core OS memory-management concepts in **user space**, without implementing a real OS kernal.
 
+---
 
 ## 🎯 Overview
 
-Memory management is one of the most fundamental responsibilities of an operating system. This project simulates the core behavior of physical memory management in a controlled user-space environment.
-The simulator maintains a contiguous block of physical memory, processes dynamic allocation requests using different allocation strategies, and tracks fragmentation and utilization metrics.
-Key goals:
+Memory management is a fundamental responsibilities of an operating system. It involves allocating memory efficiently, reclaiming unused memory, and minimizing fragmentation. 
 
-- Understand dynamic memory allocation strategies and fragmentation.
-- Simulate allocation and deallocation at runtime using different strategies. 
-- Explore multi-level CPU cache behavior and replacement policies.
-- Practice systems-level design (abstractions, modularity, metrics).
+This simulator models a **contiguous block of physical memory** and supports
+dynamic allocation and deallocation using classical allocation strategies.
+It also includes a **basic cache simulation** to demonstrate cache hits
+and misses during memory access.
+
+The project focuses on **algorithmic correctness, clarity, and learning**,
+rather than hardware-level accuracy.
+
+---
 
 
-
-## ✨ Implemented Features
+## ✨ Features
 
 ### 1. Physical Memory Simulation
 
@@ -76,9 +79,9 @@ You can adapt the exact command names here to match your actual implementation.
 
 
 
-### 3. Multilevel Cache Simulation
+### 3. Basic Cache Simulation
 
-In addition to heap-like memory allocation, the simulator models a **multi-level CPU cache hierarchy** (for example, L1 and L2).
+In addition to heap-like memory allocation, the simulator models a **basic level CPU cache hierarchy** (for example, L1 and L2).
 
 Configurable parameters per level:
 
@@ -193,21 +196,21 @@ os-memory-management-simulator/
 ├── docs/
 │   └── Design_and_Implementation_of_a_Memory_Management_Simulator.pdf
 ├── include/
-│   ├── allocator.h        # Memory allocation algorithms
-│   ├── cache.h            # Cache-related structures (basic simulation)
-│   ├── memory.h           # Physical memory representation
-│   └── stats.h            # Statistics and fragmentation tracking
+│   ├── allocator.h        
+│   ├── cache.h           
+│   ├── memory.h          
+│   └── stats.h            
 ├── src/
-│   ├── allocator.cpp      # Allocation and deallocation logic
-│   ├── cache.cpp          # Cache simulation implementation
-│   ├── memory.cpp         # Physical memory management
-│   ├── stats.cpp          # Statistics computation
-│   └── main.cpp           # Application entry point
-├── tests/                 # Test cases and validation files
+│   ├── allocator.cpp      
+│   ├── cache.cpp          
+│   ├── memory.cpp        
+│   ├── stats.cpp          
+│   └── main.cpp           
+├── tests/                 
 ├── .gitignore
 ├── LICENSE
-├── memsim.exe             # Compiled executable (Windows)
-└── README.md              # Project documentation
+├── memsim.exe            
+└── README.md              
 
 ```
 
