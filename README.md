@@ -437,8 +437,6 @@ were performed to validate basic cache behavior.
 - Cache hit ratio is computed correctly
 - Cache data does not corrupt memory state
 
-> If your current implementation omits cache simulation, this section can be
-> documented as **planned for future extension**.
 
 
 
