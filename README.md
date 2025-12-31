@@ -364,5 +364,18 @@ else:
     load data from memory
     insert data into cache
     return data
+```
 
+#### Cache Write Operation — **O(1)**
+
+```text
+write data to memory
+if address exists in cache:
+    update cache entry
+else:
+    if cache is full:
+        evict oldest cache entry (FIFO)
+    insert updated data into cache
+
+```
 
