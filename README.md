@@ -587,3 +587,49 @@ Exiting memory management simulator
 ```
 
 
+## 🤝 Contributing
+
+Contributions to this project are welcome and encouraged, especially for
+educational improvements and feature extensions.
+
+
+```markdown
+## 📚 Learning Resources
+
+The following resources were used for understanding and implementing
+memory management concepts in this project:
+
+- **Operating System Concepts** – Silberschatz, Galvin, and Gagne  
+- **Modern Operating Systems** – Andrew S. Tanenbaum  
+- **GeeksForGeeks – Operating Systems**  
+  https://www.geeksforgeeks.org/operating-systems/
+- **Gate Smashers – Operating Systems Playlist (YouTube)**  
+  https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p
+
+These resources helped in understanding allocation strategies,
+fragmentation behavior, and cache fundamentals.
+```
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+You are free to:
+- Use the code for educational purposes
+- Modify and distribute the project
+- Build upon the project for academic or personal use
+
+See the `LICENSE` file in the repository for full license details.
+
+
+## 🙏 Acknowledgments
+
+- Course instructors for guidance on operating systems concepts
+- Academic textbooks and online learning platforms for reference material
+- Open-source OS simulation projects that inspired project structure
+- GitHub community for documentation and best practices
+- Friends and peers for feedback and testing support
+
+
+
+
