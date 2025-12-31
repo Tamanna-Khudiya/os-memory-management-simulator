@@ -480,7 +480,6 @@ The following examples demonstrate typical test cases used to validate
 memory allocation, deallocation, fragmentation handling, and statistics
 reporting.
 
----
 
 ### Test Case 1: Initialize Memory and Allocate Blocks
 
@@ -552,5 +551,39 @@ External Fragmentation: <calculated percentage>
 Memory Utilization: <calculated percentage>
 ```
 
+### Test Case 5: Cache Behavior (If Cache Enabled)
+**Commands**
+```text
+access 0x0064
+access 0x0064
+```
+
+**Expected Output**
+```text
+Cache Miss at address 0x0064
+Cache Hit at address 0x0064
+```
+
+### Test Case 6: Allocation Failure
+**Commands**
+```text
+malloc 2000
+```
+
+**Expected Output**
+```text
+Allocation failed: insufficient memory
+```
+
+### Test Case 7: Program Termination
+**Commands**
+```text
+exit
+```
+
+**Expected Output**
+```text
+Exiting memory management simulator
+```
 
 
