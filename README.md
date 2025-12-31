@@ -342,11 +342,13 @@ for each block:
 
 ### Cache Access
 
-The simulator includes a **basic cache access model** to demonstrate how memory accesses
-interact with a cache layer before reaching physical memory.
+The cache subsystem uses a **First-In First-Out (FIFO)** replacement policy.
+When the cache is full and a new block must be inserted, the **oldest cache entry**
+(the one that entered first) is evicted.
 
-The cache is modeled as a simple structure that tracks whether a requested memory
-address is already cached (**cache hit**) or must be fetched from memory (**cache miss**).
+FIFO is simple to implement and helps demonstrate basic cache behavior,
+though it does not consider access frequency or recency.
+
 
 
 #### Cache Read Operation — **O(1)**
@@ -357,10 +359,10 @@ if address exists in cache:
     return cached data
 else:
     record cache miss
+    if cache is full:
+        evict oldest cache entry (FIFO)
     load data from memory
     insert data into cache
     return data
-```
-
 
 
