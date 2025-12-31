@@ -593,7 +593,7 @@ Contributions to this project are welcome and encouraged, especially for
 educational improvements and feature extensions.
 
 
-```markdown
+
 ## 📚 Learning Resources
 
 The following resources were used for understanding and implementing
@@ -608,7 +608,7 @@ memory management concepts in this project:
 
 These resources helped in understanding allocation strategies,
 fragmentation behavior, and cache fundamentals.
-```
+
 
 ## 📜 License
 
