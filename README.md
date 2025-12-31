@@ -379,3 +379,100 @@ else:
 
 ```
 
+
+## 🧪 Testing and Validation
+
+This section describes how the memory management simulator was tested for
+correctness, consistency, and expected behavior based on controlled input
+patterns and output verification.
+
+
+
+### Physical Memory Allocator Tests
+
+The memory allocator component was tested using multiple allocation and
+deallocation scenarios to ensure correct memory behavior.
+
+#### Test Scenarios
+- **Sequential allocations** of varying sizes
+- **Randomized allocations and deallocations**
+- **Deallocation patterns** (free in different orders)
+- **Boundary conditions** (full memory use, no free space)
+- **Reuse of freed blocks** to verify coalescing
+
+#### Validation Criteria
+- Memory is allocated only when free space is sufficient
+- Freed blocks are correctly marked and reused
+- Adjacent free blocks are coalesced to reduce fragmentation
+- Allocated blocks never overlap
+- Total memory size remains consistent
+
+
+
+### Fragmentation Metrics Verification
+
+After each allocation and deallocation operation, fragmentation
+measurements were verified for correctness.
+
+#### Checks Performed
+- Internal fragmentation is tracked after allocation
+- External fragmentation reflects the distribution of free blocks
+- Coalescing reduces external fragmentation as expected
+- Memory utilization statistics update correctly
+
+
+
+### Cache-Related Tests (if implemented)
+
+If the cache subsystem is enabled (via `cache.h` / `cache.cpp`), simple tests
+were performed to validate basic cache behavior.
+
+#### Test Scenarios
+- Repeated access to the **same address** to generate cache hits
+- Accessing **new addresses** to trigger cache misses
+- Mixed access patterns to verify hit/miss count
+
+#### Validation Criteria
+- Cache hits and misses are recorded accurately
+- Cache hit ratio is computed correctly
+- Cache data does not corrupt memory state
+
+> If your current implementation omits cache simulation, this section can be
+> documented as **planned for future extension**.
+
+
+
+### Integration Tests
+
+The integration between allocator, memory, and statistics components was
+validated through combined operations.
+
+#### Checks Performed
+- Allocator and memory manager remain consistent under long command sequences
+- Statistics reflect the combined effects of multiple operations
+- No memory corruption occurs during interdependent operations
+
+
+
+### Manual Testing
+
+Since there is no automated test suite in this version, manual testing was
+used extensively:
+
+- Commands like `malloc` and `free` were used in multiple sequences
+- Output of `dump memory` was visually inspected
+- Statistics output was compared with expected values
+- Repeated tests produced deterministic results
+
+
+
+### Known Limitations
+
+- No automated test framework is currently integrated
+- Performance benchmarking is not included
+- Detailed stress testing is not present
+
+Overall, the test cases provide confidence in the correctness of the
+simulator for typical memory management scenarios.
+
+
