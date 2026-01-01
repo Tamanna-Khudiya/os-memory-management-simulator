@@ -2,96 +2,89 @@
 #include <iostream>
 
 
-FIFOCache::FIFOCache(int cap) {
-    capacity = cap;
+
+CacheLevel::CacheLevel(int cap) : capacity(cap) {}
+
+bool CacheLevel::contains(int key) {
+    return data.find(key) != data.end();
 }
 
-int FIFOCache::get(int key) {
-    if (cache.find(key) == cache.end()) {
-        return -1; // Cache miss
-    }
-    return cache[key]; // Cache hit
+int CacheLevel::get(int key) {
+    if (!contains(key))
+        return -1;
+    return data[key];
 }
 
-void FIFOCache::put(int key, int value) {
-    // If key already exists, update value
-    if (cache.find(key) != cache.end()) {
-        cache[key] = value;
+void CacheLevel::put(int key, int value) {
+   
+    if (contains(key)) {
+        data[key] = value;
         return;
     }
 
-    // If cache is full, remove oldest (FIFO)
-    if ((int)cache.size() == capacity) {
-        int oldestKey = order.front();
-        order.pop();
-        cache.erase(oldestKey);
+    
+    if ((int)data.size() == capacity) {
+        int oldKey = fifo.front();
+        fifo.pop();
+        data.erase(oldKey);
     }
 
-    // Insert new key
-    cache[key] = value;
-    order.push(key);
+    data[key] = value;
+    fifo.push(key);
 }
 
-void FIFOCache::display() const {
-    std::cout << "Cache contents (FIFO order): ";
-    std::queue<int> temp = order;
+void CacheLevel::display(const std::string& name) const {
+    std::cout << name << " Cache: ";
+    std::queue<int> temp = fifo;
 
     while (!temp.empty()) {
         int key = temp.front();
         temp.pop();
-        std::cout << "[" << key << ":" << cache.at(key) << "] ";
+        std::cout << "[" << key << ":" << data.at(key) << "] ";
     }
     std::cout << "\n";
 }
 
-CacheLevel::CacheLevel(int cap)
-    : capacity(cap), time(0), hits(0), misses(0) {}
 
-bool CacheLevel::access(int address) {
-    time++;
 
-    for (auto &line : lines) {
-        if (line.valid && line.address == address) {
-            hits++;
-            line.lastUsed = time;
-            return true;  // HIT
-        }
+TwoLevelCache::TwoLevelCache(int l1Size, int l2Size)
+    : L1(l1Size), L2(l2Size),
+      l1Hits(0), l1Misses(0),
+      l2Hits(0), l2Misses(0) {}
+
+int TwoLevelCache::get(int key) {
+    
+    if (L1.contains(key)) {
+        l1Hits++;
+        return L1.get(key);
     }
 
-    misses++;
+    l1Misses++;
 
-    if ((int)lines.size() < capacity) {
-        lines.push_back({address, true, time});
-    } else {
-        // LRU eviction
-        int lruIndex = 0;
-        for (int i = 1; i < lines.size(); i++) {
-            if (lines[i].lastUsed < lines[lruIndex].lastUsed)
-                lruIndex = i;
-        }
-        lines[lruIndex] = {address, true, time};
+   
+    if (L2.contains(key)) {
+        l2Hits++;
+        int value = L2.get(key);
+        L1.put(key, value); 
+        return value;
     }
 
-    return false; // MISS
+    l2Misses++;
+    return -1; 
 }
 
-void CacheLevel::printStats(const std::string& name) {
-    std::cout << name << " Hits: " << hits
-              << " Misses: " << misses << "\n";
+void TwoLevelCache::put(int key, int value) {
+    L1.put(key, value);
+    L2.put(key, value);
 }
 
-MultiLevelCache::MultiLevelCache()
-    : L1(4), L2(8), L3(16) {}
-
-void MultiLevelCache::access(int address) {
-    if (L1.access(address)) return;
-    if (L2.access(address)) return;
-    L3.access(address);
+void TwoLevelCache::display() const {
+    L1.display("L1");
+    L2.display("L2");
 }
 
-void MultiLevelCache::stats() {
-    std::cout << "----- Cache Stats -----\n";
-    L1.printStats("L1");
-    L2.printStats("L2");
-    L3.printStats("L3");
+void TwoLevelCache::stats() const {
+    std::cout << "----- Cache Statistics -----\n";
+    std::cout << "L1 Hits: " << l1Hits << " | L1 Misses: " << l1Misses << "\n";
+    std::cout << "L2 Hits: " << l2Hits << " | L2 Misses: " << l2Misses << "\n";
 }

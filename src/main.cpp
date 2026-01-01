@@ -9,7 +9,9 @@
 int main() {
     Memory mem;
     Allocator alloc;
-    MultiLevelCache cache;   // CACHE OBJECT
+
+
+    TwoLevelCache cache(4, 8);
 
     std::string line;
 
@@ -26,7 +28,7 @@ int main() {
         if (command == "init") {
             std::string word;
             int size;
-            ss >> word >> size;   // init memory 1024
+            ss >> word >> size;  
             mem.init(size);
 
         } else if (command == "malloc") {
@@ -57,15 +59,33 @@ int main() {
                 alloc.setAllocator(WORST_FIT);
 
             std::cout << "Allocator changed\n";
-        } else if (command == "cache") {
+
+        } 
+       
+        else if (command == "cache") {
             std::string subcmd;
             ss >> subcmd;
 
             if (subcmd == "access") {
                 int address;
                 ss >> address;
-                cache.access(address);
-                std::cout << "Cache access for address " << address << "\n";
+
+                int value = cache.get(address);
+                if (value == -1)
+                    std::cout << "Cache MISS for address " << address << "\n";
+                else
+                    std::cout << "Cache HIT, value = " << value << "\n";
+
+            } else if (subcmd == "put") {
+                int address, value;
+                ss >> address >> value;
+
+                cache.put(address, value);
+                std::cout << "Inserted address " << address
+                          << " with value " << value << "\n";
+
+            } else if (subcmd == "display") {
+                cache.display();
 
             } else if (subcmd == "stats") {
                 cache.stats();
@@ -73,7 +93,10 @@ int main() {
             } else {
                 std::cout << "Unknown cache command\n";
             }
-        } else if (command == "exit") {
+        }
+       
+
+        else if (command == "exit") {
             std::cout << "Exiting simulator...\n";
             break;
 

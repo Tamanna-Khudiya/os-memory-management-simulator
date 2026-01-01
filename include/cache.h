@@ -1,57 +1,44 @@
 #ifndef CACHE_H
 #define CACHE_H
 
-#include <vector>
-#include <string>
 #include <unordered_map>
 #include <queue>
+#include <string>
 
-
-struct CacheLine {
-    int address;
-    bool valid;
-    int lastUsed;
-};
 
 class CacheLevel {
 private:
     int capacity;
-    int time;
-    int hits;
-    int misses;
-    std::vector<CacheLine> lines;
+    std::unordered_map<int, int> data;
+    std::queue<int> fifo;
 
 public:
     CacheLevel(int cap);
-    bool access(int address);
-    void printStats(const std::string& name);
+
+    bool contains(int key);
+    int get(int key);
+    void put(int key, int value);
+    void display(const std::string& name) const;
 };
 
-class MultiLevelCache {
+
+class TwoLevelCache {
 private:
     CacheLevel L1;
     CacheLevel L2;
-    CacheLevel L3;
+
+    int l1Hits;
+    int l1Misses;
+    int l2Hits;
+    int l2Misses;
 
 public:
-    MultiLevelCache();
-    void access(int address);
-    void stats();
-};
-
-class FIFOCache {
-private:
-    int capacity;                              
-    std::unordered_map<int, int> cache;        
-    std::queue<int> order;                     
-
-public:
-   
-    FIFOCache(int cap);
+    TwoLevelCache(int l1Size, int l2Size);
 
     int get(int key);
     void put(int key, int value);
     void display() const;
+    void stats() const;
 };
 
 #endif
