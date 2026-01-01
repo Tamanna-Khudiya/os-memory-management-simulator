@@ -1,24 +1,27 @@
 # 🧠 OS Memory Management Simulator
 
-A **C++ based Operating System Memory Management Simulator** that models how an OS manages physical memory allocation and deallocation using classical allocation strategies.
-This project focuses on algorithmic correctness, fragmentation analysis, and system-level design, without implementing a real kernel. 
+A **C++ based Operating System Memory Management Simulator** that demonstrates how an operating system manages **physical memory allocation, deallocation, fragmentation, and basic cache behavior**.
 
+This project is intended for **educational purposes** and simulates core OS memory-management concepts in **user space**, without implementing a real OS kernal.
 
+---
 
 ## 🎯 Overview
 
-Memory management is one of the most fundamental responsibilities of an operating system. This project simulates the core behavior of physical memory management in a controlled user-space environment.
-The simulator maintains a contiguous block of physical memory, processes dynamic allocation requests using different allocation strategies, and tracks fragmentation and utilization metrics.
-Key goals:
+Memory management is a fundamental responsibilities of an operating system. It involves allocating memory efficiently, reclaiming unused memory, and minimizing fragmentation. 
 
-- Understand dynamic memory allocation strategies and fragmentation.
-- Simulate allocation and deallocation at runtime using different strategies. 
-- Explore multi-level CPU cache behavior and replacement policies.
-- Practice systems-level design (abstractions, modularity, metrics).
+This simulator models a **contiguous block of physical memory** and supports
+dynamic allocation and deallocation using classical allocation strategies.
+It also includes a **basic cache simulation** to demonstrate cache hits
+and misses during memory access.
+
+The project focuses on **algorithmic correctness, clarity, and learning**,
+rather than hardware-level accuracy.
+
+---
 
 
-
-## ✨ Implemented Features
+## ✨ Features
 
 ### 1. Physical Memory Simulation
 
@@ -76,9 +79,9 @@ You can adapt the exact command names here to match your actual implementation.
 
 
 
-### 3. Multilevel Cache Simulation
+### 3. Basic Cache Simulation
 
-In addition to heap-like memory allocation, the simulator models a **multi-level CPU cache hierarchy** (for example, L1 and L2).
+In addition to heap-like memory allocation, the simulator models a **basic level CPU cache hierarchy** (for example, L1 and L2).
 
 Configurable parameters per level:
 
@@ -193,21 +196,21 @@ os-memory-management-simulator/
 ├── docs/
 │   └── Design_and_Implementation_of_a_Memory_Management_Simulator.pdf
 ├── include/
-│   ├── allocator.h        # Memory allocation algorithms
-│   ├── cache.h            # Cache-related structures (basic simulation)
-│   ├── memory.h           # Physical memory representation
-│   └── stats.h            # Statistics and fragmentation tracking
+│   ├── allocator.h        
+│   ├── cache.h           
+│   ├── memory.h          
+│   └── stats.h            
 ├── src/
-│   ├── allocator.cpp      # Allocation and deallocation logic
-│   ├── cache.cpp          # Cache simulation implementation
-│   ├── memory.cpp         # Physical memory management
-│   ├── stats.cpp          # Statistics computation
-│   └── main.cpp           # Application entry point
-├── tests/                 # Test cases and validation files
+│   ├── allocator.cpp      
+│   ├── cache.cpp          
+│   ├── memory.cpp        
+│   ├── stats.cpp          
+│   └── main.cpp           
+├── tests/                 
 ├── .gitignore
 ├── LICENSE
-├── memsim.exe             # Compiled executable (Windows)
-└── README.md              # Project documentation
+├── memsim.exe            
+└── README.md              
 
 ```
 
@@ -342,11 +345,13 @@ for each block:
 
 ### Cache Access
 
-The simulator includes a **basic cache access model** to demonstrate how memory accesses
-interact with a cache layer before reaching physical memory.
+The cache subsystem uses a **First-In First-Out (FIFO)** replacement policy.
+When the cache is full and a new block must be inserted, the **oldest cache entry**
+(the one that entered first) is evicted.
 
-The cache is modeled as a simple structure that tracks whether a requested memory
-address is already cached (**cache hit**) or must be fetched from memory (**cache miss**).
+FIFO is simple to implement and helps demonstrate basic cache behavior,
+though it does not consider access frequency or recency.
+
 
 
 #### Cache Read Operation — **O(1)**
@@ -357,10 +362,277 @@ if address exists in cache:
     return cached data
 else:
     record cache miss
+    if cache is full:
+        evict oldest cache entry (FIFO)
     load data from memory
     insert data into cache
     return data
 ```
+
+#### Cache Write Operation — **O(1)**
+
+```text
+write data to memory
+if address exists in cache:
+    update cache entry
+else:
+    if cache is full:
+        evict oldest cache entry (FIFO)
+    insert updated data into cache
+
+```
+
+
+## 🧪 Testing and Validation
+
+This section describes how the memory management simulator was tested for
+correctness, consistency, and expected behavior based on controlled input
+patterns and output verification.
+
+
+
+### Physical Memory Allocator Tests
+
+The memory allocator component was tested using multiple allocation and
+deallocation scenarios to ensure correct memory behavior.
+
+#### Test Scenarios
+- **Sequential allocations** of varying sizes
+- **Randomized allocations and deallocations**
+- **Deallocation patterns** (free in different orders)
+- **Boundary conditions** (full memory use, no free space)
+- **Reuse of freed blocks** to verify coalescing
+
+#### Validation Criteria
+- Memory is allocated only when free space is sufficient
+- Freed blocks are correctly marked and reused
+- Adjacent free blocks are coalesced to reduce fragmentation
+- Allocated blocks never overlap
+- Total memory size remains consistent
+
+
+
+### Fragmentation Metrics Verification
+
+After each allocation and deallocation operation, fragmentation
+measurements were verified for correctness.
+
+#### Checks Performed
+- Internal fragmentation is tracked after allocation
+- External fragmentation reflects the distribution of free blocks
+- Coalescing reduces external fragmentation as expected
+- Memory utilization statistics update correctly
+
+
+
+### Cache-Related Tests (if implemented)
+
+If the cache subsystem is enabled (via `cache.h` / `cache.cpp`), simple tests
+were performed to validate basic cache behavior.
+
+#### Test Scenarios
+- Repeated access to the **same address** to generate cache hits
+- Accessing **new addresses** to trigger cache misses
+- Mixed access patterns to verify hit/miss count
+
+#### Validation Criteria
+- Cache hits and misses are recorded accurately
+- Cache hit ratio is computed correctly
+- Cache data does not corrupt memory state
+
+
+
+
+### Integration Tests
+
+The integration between allocator, memory, and statistics components was
+validated through combined operations.
+
+#### Checks Performed
+- Allocator and memory manager remain consistent under long command sequences
+- Statistics reflect the combined effects of multiple operations
+- No memory corruption occurs during interdependent operations
+
+
+
+### Manual Testing
+
+Since there is no automated test suite in this version, manual testing was
+used extensively:
+
+- Commands like `malloc` and `free` were used in multiple sequences
+- Output of `dump memory` was visually inspected
+- Statistics output was compared with expected values
+- Repeated tests produced deterministic results
+
+
+
+### Known Limitations
+
+- No automated test framework is currently integrated
+- Performance benchmarking is not included
+- Detailed stress testing is not present
+
+Overall, the test cases provide confidence in the correctness of the
+simulator for typical memory management scenarios.
+
+
+## 🧾 Example Test Commands and Expected Output
+
+The following examples demonstrate typical test cases used to validate
+memory allocation, deallocation, fragmentation handling, and statistics
+reporting.
+
+
+### Test Case 1: Initialize Memory and Allocate Blocks
+
+**Commands**
+```text
+init memory 1024
+set allocator first_fit
+malloc 100
+malloc 200
+```
+
+**Expected Output**
+```text
+Memory initialized with size 1024 bytes
+Allocator set to First Fit
+
+Allocated block id=1 at address=0x0000 (size=100)
+Allocated block id=2 at address=0x0064 (size=200)
+```
+
+### Test Case 2: Free a Block and Verify Coalescing
+
+**Commands**
+```text
+free 1
+dump memory
+```
+
+**Expected Output**
+```text
+Block id=1 freed successfully
+
+[0x0000 - 0x0063] FREE
+[0x0064 - 0x012B] USED (id=2)
+[0x012C - 0x03FF] FREE
+```
+
+### Test Case 3: Reuse Freed Memory
+**Commands**
+```text
+malloc 50
+dump memory
+```
+
+**Expected Output**
+```text
+Allocated block id=3 at address=0x0000 (size=50)
+
+[0x0000 - 0x0031] USED (id=3)
+[0x0032 - 0x0063] FREE
+[0x0064 - 0x012B] USED (id=2)
+[0x012C - 0x03FF] FREE
+```
+
+### Test Case 4: Fragmentation and Statistics
+**Commands**
+```text
+stats
+```
+
+**Expected Output**
+```text
+Total Memory: 1024 bytes
+Used Memory: 250 bytes
+Free Memory: 774 bytes
+
+Internal Fragmentation: 0 bytes
+External Fragmentation: <calculated percentage>
+Memory Utilization: <calculated percentage>
+```
+
+### Test Case 5: Cache Behavior (If Cache Enabled)
+**Commands**
+```text
+access 0x0064
+access 0x0064
+```
+
+**Expected Output**
+```text
+Cache Miss at address 0x0064
+Cache Hit at address 0x0064
+```
+
+### Test Case 6: Allocation Failure
+**Commands**
+```text
+malloc 2000
+```
+
+**Expected Output**
+```text
+Allocation failed: insufficient memory
+```
+
+### Test Case 7: Program Termination
+**Commands**
+```text
+exit
+```
+
+**Expected Output**
+```text
+Exiting memory management simulator
+```
+
+
+## 🤝 Contributing
+
+Contributions to this project are welcome and encouraged, especially for
+educational improvements and feature extensions.
+
+
+
+## 📚 Learning Resources
+
+The following resources were used for understanding and implementing
+memory management concepts in this project:
+
+- **Operating System Concepts** – Silberschatz, Galvin, and Gagne  
+- **Modern Operating Systems** – Andrew S. Tanenbaum  
+- **GeeksForGeeks – Operating Systems**  
+  https://www.geeksforgeeks.org/operating-systems/
+- **Gate Smashers – Operating Systems Playlist (YouTube)**  
+  https://www.youtube.com/playlist?list=PLxCzCOWd7aiGz9donHRrE9I3Mwn6XdP8p
+
+These resources helped in understanding allocation strategies,
+fragmentation behavior, and cache fundamentals.
+
+
+## 📜 License
+
+This project is licensed under the **MIT License**.
+
+You are free to:
+- Use the code for educational purposes
+- Modify and distribute the project
+- Build upon the project for academic or personal use
+
+See the `LICENSE` file in the repository for full license details.
+
+
+## 🙏 Acknowledgments
+
+- Course instructors for guidance on operating systems concepts
+- Academic textbooks and online learning platforms for reference material
+- Open-source OS simulation projects that inspired project structure
+- GitHub community for documentation and best practices
+- Friends and peers for feedback and testing support
+
 
 
 
