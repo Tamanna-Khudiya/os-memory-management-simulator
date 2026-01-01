@@ -61,13 +61,28 @@ int main() {
 
             std::cout << "Allocator changed\n";
 
-        } 
-       
-        else if (command == "cache") {
+        } else if (command == "cache") {
             std::string subcmd;
             ss >> subcmd;
 
-            if (subcmd == "access") {
+            if (subcmd == "init") {
+                int l1Size, l2Size;
+                ss >> l1Size >> l2Size;
+
+                if (cache) {
+                    delete cache;
+                }
+
+                cache = new TwoLevelCache(l1Size, l2Size);
+                std::cout << "Cache initialized (L1=" << l1Size
+                        << ", L2=" << l2Size << ")\n";
+
+            } else if (subcmd == "access") {
+                if (!cache) {
+                    std::cout << "Cache not initialized\n";
+                    continue;
+                }
+
                 int address;
                 ss >> address;
 
@@ -78,26 +93,37 @@ int main() {
                     std::cout << "Cache HIT, value = " << value << "\n";
 
             } else if (subcmd == "put") {
+                if (!cache) {
+                    std::cout << "Cache not initialized\n";
+                    continue;
+                }
+
                 int address, value;
                 ss >> address >> value;
 
                 cache->put(address, value);
                 std::cout << "Inserted address " << address
-                          << " with value " << value << "\n";
+                        << " with value " << value << "\n";
 
             } else if (subcmd == "display") {
+                if (!cache) {
+                    std::cout << "Cache not initialized\n";
+                    continue;
+                }
                 cache->display();
+            }
 
-            } else if (subcmd == "stats") {
+            else if (subcmd == "stats") {
+                if (!cache) {
+                    std::cout << "Cache not initialized\n";
+                    continue;
+                }
                 cache->stats();
-
             } else {
                 std::cout << "Unknown cache command\n";
             }
-        }
-       
-
-        else if (command == "exit") {
+            
+        }else if (command == "exit") {
             std::cout << "Exiting simulator...\n";
             break;
 
