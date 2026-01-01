@@ -6,12 +6,13 @@
 #include "../include/allocator.h"
 #include "../include/cache.h"
 
+
 int main() {
     Memory mem;
     Allocator alloc;
 
 
-    TwoLevelCache cache(4, 8);
+    TwoLevelCache* cache = nullptr;
 
     std::string line;
 
@@ -70,7 +71,7 @@ int main() {
                 int address;
                 ss >> address;
 
-                int value = cache.get(address);
+                int value = cache->get(address);
                 if (value == -1)
                     std::cout << "Cache MISS for address " << address << "\n";
                 else
@@ -80,15 +81,15 @@ int main() {
                 int address, value;
                 ss >> address >> value;
 
-                cache.put(address, value);
+                cache->put(address, value);
                 std::cout << "Inserted address " << address
                           << " with value " << value << "\n";
 
             } else if (subcmd == "display") {
-                cache.display();
+                cache->display();
 
             } else if (subcmd == "stats") {
-                cache.stats();
+                cache->stats();
 
             } else {
                 std::cout << "Unknown cache command\n";
@@ -104,6 +105,8 @@ int main() {
             std::cout << "Unknown command\n";
         }
     }
-
+    if(cache){
+        delete cache;
+    }
     return 0;
 }
