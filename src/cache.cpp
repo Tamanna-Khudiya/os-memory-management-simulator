@@ -50,7 +50,8 @@ void CacheLevel::display(const std::string& name) const {
 TwoLevelCache::TwoLevelCache(int l1Size, int l2Size)
     : L1(l1Size), L2(l2Size),
       l1Hits(0), l1Misses(0),
-      l2Hits(0), l2Misses(0) {}
+      l2Hits(0), l2Misses(0),
+      memoryAccesses(0) {}
 
 int TwoLevelCache::get(int key) {
     
@@ -70,6 +71,7 @@ int TwoLevelCache::get(int key) {
     }
 
     l2Misses++;
+    memoryAccesses++;
     return -1; 
 }
 
@@ -87,4 +89,5 @@ void TwoLevelCache::stats() const {
     std::cout << "----- Cache Statistics -----\n";
     std::cout << "L1 Hits: " << l1Hits << " | L1 Misses: " << l1Misses << "\n";
     std::cout << "L2 Hits: " << l2Hits << " | L2 Misses: " << l2Misses << "\n";
+    std::cout << "Main Memory Accesses: " << memoryAccesses << "\n";
 }

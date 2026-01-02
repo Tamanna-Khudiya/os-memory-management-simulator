@@ -31,7 +31,7 @@ private:
     int l1Misses;
     int l2Hits;
     int l2Misses;
-
+    int memoryAccesses;
 public:
     TwoLevelCache(int l1Size, int l2Size);
 

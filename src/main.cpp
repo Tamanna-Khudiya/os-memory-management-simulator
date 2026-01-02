@@ -88,7 +88,7 @@ int main() {
 
                 int value = cache->get(address);
                 if (value == -1)
-                    std::cout << "Cache MISS for address " << address << "\n";
+                    std::cout << "L1 MISS -> L2 MISS -> MEMORY ACCESS\n";
                 else
                     std::cout << "Cache HIT, value = " << value << "\n";
 
@@ -122,7 +122,7 @@ int main() {
             } else {
                 std::cout << "Unknown cache command\n";
             }
-            
+
         }else if (command == "exit") {
             std::cout << "Exiting simulator...\n";
             break;
