@@ -2,7 +2,7 @@
 
 A **C++ based Operating System Memory Management Simulator** that demonstrates how an operating system manages **physical memory allocation, deallocation, fragmentation, and basic cache behavior**.
 
-This project is intended for **educational purposes** and simulates core OS memory-management concepts in **user space**, without implementing a real OS kernal.
+This project is built for **educational and learning purposes** and models key memory-management concepts in a user-space simulation rather than a real OS kernel.
 
 ---
 
@@ -81,27 +81,34 @@ You can adapt the exact command names here to match your actual implementation.
 
 ### 3. Basic Cache Simulation
 
-In addition to heap-like memory allocation, the simulator models a **basic level CPU cache hierarchy** (for example, L1 and L2).
+#### Configurable cache parameters:
+- Cache capacity configurable per level (L1 and L2), measured as number of cache entries
+- Fully associative cache organization
+- FIFO (First-In, First-Out) replacement policy implemented using queue-based eviction
 
-Configurable parameters per level:
+#### Address handling model:
+- Memory addresses are treated as cache keys
+- No explicit tag, index, or offset decomposition
+- Each cache entry represents a single memory unit (block size = 1)
 
-- Cache size (number of lines / bytes).  
-- Block size.  
-- Associativity (direct-mapped or set-associative, depending on your implementation).  
-- Replacement policy: at minimum **FIFO**; optional policies such as LRU/LFU can be added later. 
+#### Replacement and update behavior:
+- FIFO eviction applied independently at each cache level
+- Cache entries are inserted on miss and evicted when capacity is full
+- On an L2 cache hit, the cache line is promoted to L1
 
-For each memory access, the simulator:
+#### Multi-level cache hierarchy:
+- Two-level cache hierarchy consisting of L1 and L2
+- Inclusive hierarchy:
+    - L1 is always checked first
+    - L2 is accessed only on an L1 miss
+- Main memory is accessed only when both L1 and L2 miss
 
-- Checks cache levels in order (e.g., L1 → L2 → main memory). 
-- Records hits and misses at each level. 
-- Updates cache state according to the chosen replacement policy.
-
-Reported cache statistics can include:
-
-- Hits and misses per cache level.  
-- Hit ratio / miss ratio.  
-- Effective access behavior (miss penalties if modeled).  
-
+#### Performance metrics and statistics:
+- Separate hit and miss counters for:
+    - L1 cache
+    - L2 cache
+- Main memory access count tracked explicitly
+- Cache statistics reported per level for performance analysis
 
 
 ## 🧩 Planned / Optional Extensions
