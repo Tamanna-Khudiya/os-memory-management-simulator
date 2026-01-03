@@ -221,13 +221,7 @@ os-memory-management-simulator/
 
 ```
 
-## ⚙️ Build & Run
 
-### Using g++
-```bash
-g++ src/*.cpp -Iinclude -o memsim
-./memsim
-```
 
 
 ## 🎨 Design Principles
@@ -495,6 +489,14 @@ simulator for typical memory management scenarios.
 The following examples demonstrate typical test cases used to validate
 memory allocation, deallocation, fragmentation handling, and statistics
 reporting.
+
+### ⚙️ Build & Run
+
+### Using g++
+```bash
+g++ src/*.cpp -Iinclude -o memsim
+./memsim
+```
 
 
 ### Test Case 1: Initialize Memory and Allocate Blocks
