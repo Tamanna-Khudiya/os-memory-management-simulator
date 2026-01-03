@@ -25,27 +25,18 @@ rather than hardware-level accuracy.
 
 ### 1. Physical Memory Simulation
 
-- Simulated contiguous block of **physical memory** with configurable size (e.g., 1 KB, 4 KB, etc.). 
-- Memory is dynamically divided based on allocation requests rather than fixed partitions.  
-- Internal representation uses explicit metadata to track allocated and free blocks. 
+- Simulates contiguous physical memory with configurable size (e.g., 1 KB, 4 KB)
+- Dynamic variable-size allocation (no fixed partitions)
+- Metadata-based tracking of allocated and free blocks
+- Automatic block splitting and coalescing to minimize fragmentation
+
+
 
 #### Allocation Strategies
 
-The simulator supports a **variable-size allocator** with the following strategies: 
-
-- **First Fit** – choose the first free block that is large enough. 
-- **Best Fit** – choose the smallest free block that can satisfy the request.  
-- **Worst Fit** – choose the largest free block to reduce future fragmentation. 
-
-On each `malloc`-like operation, the simulator:
-
-- Searches for a suitable free block based on the selected strategy. 
-- Splits blocks when needed and updates metadata. 
-
-On each `free` operation, the simulator:
-
-- Marks the block as free. 
-- **Automatically coalesces** adjacent free blocks to reduce external fragmentation.
+- First Fit – first suitable free block
+- Best Fit – smallest sufficient free block
+- Worst Fit – largest free block to reduce future fragmentation
 
 #### Metrics and Statistics
 
@@ -58,57 +49,35 @@ The simulator tracks and can report:
 
 
 
-### 2. Command-Line Interface
+### 2.💻Command-Line Interface
 
-The simulator exposes a simple CLI-style interface to interact with the memory model.
-
-Typical operations (names/format may differ depending on your implementation):
-
-- Initialize memory:
-  - `memsim init <memory_size>` – set up the physical memory size (e.g., `memsim init 1024`).
-- Select allocation strategy:
-  - `memsim set allocator firstfit|bestfit|worstfit`.
-- Allocate memory:
-  - `memsim malloc <size>` – allocate a block and print its id and starting address. 
-- Free memory:
-  - `memsim free <block_id>` – free the block with the given id and coalesce if possible.
-- Dump / inspect memory:
-  - `memsim dump` – show allocated and free regions along with basic statistics.
-
-You can adapt the exact command names here to match your actual implementation.
+Interactive CLI for managing and inspecting memory:
+- init <size> – initialize physical memory
+- set allocator firstfit | bestfit | worstfit – choose allocation strategy
+- malloc <size> – allocate memory block
+- free <block_id> – deallocate and coalesce blocks
+- dump – display memory layout and statistics
 
 
 
-### 3. Basic Cache Simulation
+### 3. 🗂️Cache Simulation
 
-#### Configurable cache parameters:
-- Cache capacity configurable per level (L1 and L2), measured as number of cache entries
-- Fully associative cache organization
-- FIFO (First-In, First-Out) replacement policy implemented using queue-based eviction
+#### Cache Architecture
+- Two-level inclusive cache hierarchy (L1 & L2)
+- Fully associative caches
+- Configurable cache capacity per level
+- FIFO replacement policy
 
-#### Address handling model:
-- Memory addresses are treated as cache keys
-- No explicit tag, index, or offset decomposition
-- Each cache entry represents a single memory unit (block size = 1)
+#### Access Behavior
+- L1 checked first → L2 accessed on L1 miss
+- Main memory accessed only on L1 & L2 miss
+- L2 hits are promoted to L1
 
-#### Replacement and update behavior:
-- FIFO eviction applied independently at each cache level
-- Cache entries are inserted on miss and evicted when capacity is full
-- On an L2 cache hit, the cache line is promoted to L1
+#### Performance Metrics
+- Per-level hit and miss counts (L1 & L2)
+- Main memory access count
+- Cache performance statistics for analysis
 
-#### Multi-level cache hierarchy:
-- Two-level cache hierarchy consisting of L1 and L2
-- Inclusive hierarchy:
-    - L1 is always checked first
-    - L2 is accessed only on an L1 miss
-- Main memory is accessed only when both L1 and L2 miss
-
-#### Performance metrics and statistics:
-- Separate hit and miss counters for:
-    - L1 cache
-    - L2 cache
-- Main memory access count tracked explicitly
-- Cache statistics reported per level for performance analysis
 
 
 ## 🧩 Planned / Optional Extensions
@@ -123,41 +92,6 @@ These are **defined in the project design** but not implemented in this reposito
   - Integration with cache: virtual address → page table → physical address → cache → memory. 
 
 
-
-## 🧩 Core Subsystems
-
-### 1️⃣ Physical Memory Manager
-- Simulates a contiguous region of physical memory
-- Maintains a list of memory blocks
-- Tracks allocated and free regions
-- Ensures memory blocks never overlap
-
-
-
-### 2️⃣ Allocation Engine
-- Implements First Fit, Best Fit, and Worst Fit algorithms
-- Searches free blocks based on selected strategy
-- Splits blocks when allocating smaller portions
-- Merges adjacent free blocks after deallocation
-
-
-
-### 3️⃣ Fragmentation & Statistics Module
-- Computes internal fragmentation
-- Computes external fragmentation
-- Tracks:
-  - Total memory
-  - Used memory
-  - Free memory
-  - Memory utilization
-  - Allocation success and failure
-
-
-
-### 4️⃣ Command-Line Interface (CLI)
-- Accepts user commands interactively
-- Displays allocation results and memory layout
-- Provides real-time statistics and diagnostics
 
 
 
