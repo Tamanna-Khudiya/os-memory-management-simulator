@@ -221,7 +221,13 @@ os-memory-management-simulator/
 
 ```
 
+## ⚙️ Build & Run
 
+### Using g++
+```bash
+g++ src/*.cpp -Iinclude -o memsim
+./memsim
+```
 
 
 ## 🎨 Design Principles
