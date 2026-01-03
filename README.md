@@ -326,111 +326,54 @@ else:
 
 ## 🧪 Testing and Validation
 
-This section describes how the memory management simulator was tested for
-correctness, consistency, and expected behavior based on controlled input
-patterns and output verification.
+The simulator was manually tested using controlled allocation and deallocation patterns to verify correctness, consistency, and stability.
+
+### Memory Allocator Testing
+- Sequential and randomized memory allocations
+- Deallocation in different orders
+- Boundary cases ( full memory, no free space)
+- Reuse and coalescing of freed memory blocks
 
 
-
-### Physical Memory Allocator Tests
-
-The memory allocator component was tested using multiple allocation and
-deallocation scenarios to ensure correct memory behavior.
-
-#### Test Scenarios
-- **Sequential allocations** of varying sizes
-- **Randomized allocations and deallocations**
-- **Deallocation patterns** (free in different orders)
-- **Boundary conditions** (full memory use, no free space)
-- **Reuse of freed blocks** to verify coalescing
-
-#### Validation Criteria
-- Memory is allocated only when free space is sufficient
-- Freed blocks are correctly marked and reused
+**Verified Outcomes:**
+- Allocation occur only when sufficient memory is available
+- Freed blocks are reused correctly without overlap
 - Adjacent free blocks are coalesced to reduce fragmentation
-- Allocated blocks never overlap
 - Total memory size remains consistent
 
 
+### 📊 Fragmentation & Statistics Validation
+- Internal and external fragmentation metrics update correctly
+- Memory utilization reflects real-time allocator behavior
+- Fragmentation reduces after block coalescing
+ 
 
-### Fragmentation Metrics Verification
-
-After each allocation and deallocation operation, fragmentation
-measurements were verified for correctness.
-
-#### Checks Performed
-- Internal fragmentation is tracked after allocation
-- External fragmentation reflects the distribution of free blocks
-- Coalescing reduces external fragmentation as expected
-- Memory utilization statistics update correctly
-
+### 🧠 Cache Testing
+- Repeated accesses generate cache hits
+- New accesses trigger cache misses
+- Hit/miss ratios are tracked accurately
 
 
-### Cache-Related Tests (if implemented)
-
-If the cache subsystem is enabled (via `cache.h` / `cache.cpp`), simple tests
-were performed to validate basic cache behavior.
-
-#### Test Scenarios
-- Repeated access to the **same address** to generate cache hits
-- Accessing **new addresses** to trigger cache misses
-- Mixed access patterns to verify hit/miss count
-
-#### Validation Criteria
-- Cache hits and misses are recorded accurately
-- Cache hit ratio is computed correctly
-- Cache data does not corrupt memory state
+### 🔗 Integration & Manual Testing
+- Long command sequences tested for consistency
+- `dump memory` output visually verified
+- Results are deterministic across repeated runs
+  
+> **Note:** Automated testing and performance benchmarking are planned as future enhancements.
 
 
-
-
-### Integration Tests
-
-The integration between allocator, memory, and statistics components was
-validated through combined operations.
-
-#### Checks Performed
-- Allocator and memory manager remain consistent under long command sequences
-- Statistics reflect the combined effects of multiple operations
-- No memory corruption occurs during interdependent operations
-
-
-
-### Manual Testing
-
-Since there is no automated test suite in this version, manual testing was
-used extensively:
-
-- Commands like `malloc` and `free` were used in multiple sequences
-- Output of `dump memory` was visually inspected
-- Statistics output was compared with expected values
-- Repeated tests produced deterministic results
-
-
-
-### Known Limitations
-
-- No automated test framework is currently integrated
-- Performance benchmarking is not included
-- Detailed stress testing is not present
-
-Overall, the test cases provide confidence in the correctness of the
-simulator for typical memory management scenarios.
-
-
-## 🧾 Example Test Commands and Expected Output
-
-The following examples demonstrate typical test cases used to validate
-memory allocation, deallocation, fragmentation handling, and statistics
-reporting.
-
-### ⚙️ Build & Run
+## ⚙️ Build & Run
 
 ### Using g++
 ```bash
 g++ src/*.cpp -Iinclude -o memsim
 ./memsim
 ```
+
+
+## 🧾 Example Test Commands and Expected Output
+
+The following test cases validate correct behavior of the memory allocator, fragmentation handling, cache module, and system integration.
 
 
 ### Test Case 1: Initialize Memory and Allocate Blocks
@@ -445,11 +388,11 @@ malloc 200
 
 **Expected Output**
 ```text
-Memory initialized with size 1024 bytes
-Allocator set to First Fit
+Memory initialized with size 1024 
+Allocator change
 
-Allocated block id=1 at address=0x0000 (size=100)
-Allocated block id=2 at address=0x0064 (size=200)
+Allocated block id=1 at address=0x0
+Allocated block id=2 at address=0x64
 ```
 
 ### Test Case 2: Free a Block and Verify Coalescing
@@ -462,11 +405,12 @@ dump memory
 
 **Expected Output**
 ```text
-Block id=1 freed successfully
+Block 1 freed
 
-[0x0000 - 0x0063] FREE
-[0x0064 - 0x012B] USED (id=2)
-[0x012C - 0x03FF] FREE
+----- Memory Dump -----
+[0x0 - 0x63] FREE
+[0x64 - 0x12b] USED (id=2)
+[0x12c - 0x3ff] FREE
 ```
 
 ### Test Case 3: Reuse Freed Memory
@@ -478,12 +422,13 @@ dump memory
 
 **Expected Output**
 ```text
-Allocated block id=3 at address=0x0000 (size=50)
+Allocated block id=3 at address=0x0
 
-[0x0000 - 0x0031] USED (id=3)
-[0x0032 - 0x0063] FREE
-[0x0064 - 0x012B] USED (id=2)
-[0x012C - 0x03FF] FREE
+----- Memory Dump -----
+[0x0 - 0x31] USED (id=3)
+[0x32 - 0x63] FREE
+[0x64 - 0x12b] USED (id=2)
+[0x12c - 0x3ff] FREE
 ```
 
 ### Test Case 4: Fragmentation and Statistics
@@ -497,10 +442,19 @@ stats
 Total Memory: 1024 bytes
 Used Memory: 250 bytes
 Free Memory: 774 bytes
-
-Internal Fragmentation: 0 bytes
 External Fragmentation: <calculated percentage>
 Memory Utilization: <calculated percentage>
+```
+
+### Test Case 5: Initialize Cache
+**Commands**
+```text
+cache init 4 16
+```
+
+**Expected Output**
+```text
+Cache initialized (L1=4, L2=16)
 ```
 
 ### Test Case 5: Cache Behavior (If Cache Enabled)
@@ -564,23 +518,13 @@ fragmentation behavior, and cache fundamentals.
 
 ## 📜 License
 
-This project is licensed under the **MIT License**.
+This project is licensed under the **MIT License** - free to use, modify, and share.
 
-You are free to:
-- Use the code for educational purposes
-- Modify and distribute the project
-- Build upon the project for academic or personal use
-
-See the `LICENSE` file in the repository for full license details.
 
 
 ## 🙏 Acknowledgments
 
-- Course instructors for guidance on operating systems concepts
-- Academic textbooks and online learning platforms for reference material
-- Open-source OS simulation projects that inspired project structure
-- GitHub community for documentation and best practices
-- Friends and peers for feedback and testing support
+Made for educational purposees to help understand memory management fundamentals.
 
 
 
