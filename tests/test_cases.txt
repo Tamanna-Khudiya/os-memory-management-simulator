@@ -1,0 +1,152 @@
+# Test Cases for Memory Management Simulator
+# Each test case contains commands to be executed sequentially
+
+================================================================================
+TEST CASE 1: Initialize Memory and Basic Allocation
+================================================================================
+init memory 1024
+set allocator first_fit
+malloc 100
+malloc 200
+stats
+
+================================================================================
+TEST CASE 2: Free Memory and Coalescing
+================================================================================
+init memory 1024
+malloc 100
+malloc 100
+malloc 100
+free 2
+dump
+
+================================================================================
+TEST CASE 3: Best Fit Allocation Strategy
+================================================================================
+init memory 2048
+set allocator best_fit
+malloc 200
+malloc 200
+malloc 200
+
+================================================================================
+TEST CASE 4: Worst Fit Allocation Strategy
+================================================================================
+init memory 2048
+set allocator worst_fit
+malloc 200
+malloc 200
+
+================================================================================
+TEST CASE 5: Cache Operations
+================================================================================
+cache init 5 10
+cache put 100 42
+cache access 100
+cache access 200
+cache stats
+
+================================================================================
+TEST CASE 6: Allocation Failure
+================================================================================
+init memory 512
+malloc 1024
+
+================================================================================
+TEST CASE 7: Invalid Free Request
+================================================================================
+init memory 1024
+malloc 100
+free 99
+
+================================================================================
+TEST CASE 8: Fragmentation Analysis
+================================================================================
+init memory 2048
+malloc 500
+malloc 500
+malloc 500
+free 2
+stats
+
+================================================================================
+TEST CASE 9: Reuse of Freed Blocks
+================================================================================
+init memory 1024
+malloc 100
+malloc 100
+free 1
+malloc 50
+
+================================================================================
+TEST CASE 10: Mixed Cache Operations
+================================================================================
+cache init 3 5
+cache put 10 100
+cache put 20 200
+cache put 30 300
+cache access 20
+cache access 40
+cache put 40 400
+
+================================================================================
+TEST CASE 11: Full Workflow - Memory and Cache
+================================================================================
+init memory 2048
+malloc 256
+malloc 512
+set allocator best_fit
+malloc 128
+dump
+cache init 10 20
+cache put 1000 1
+cache put 2000 2
+cache access 1000
+cache access 2000
+cache access 3000
+cache stats
+stats
+
+================================================================================
+TEST CASE 12: Multiple Allocator Changes
+================================================================================
+init memory 1024
+malloc 100
+set allocator best_fit
+malloc 100
+set allocator worst_fit
+malloc 100
+dump
+
+================================================================================
+TEST CASE 13: Cache Eviction FIFO
+================================================================================
+cache init 2 3
+cache put 1 10
+cache put 2 20
+cache put 3 30
+cache display
+cache access 1
+cache display
+
+================================================================================
+TEST CASE 14: Boundary Conditions
+================================================================================
+init memory 1024
+malloc 1024
+dump
+stats
+
+================================================================================
+TEST CASE 15: Sequential Free and Allocate
+================================================================================
+init memory 2048
+malloc 256
+malloc 256
+malloc 256
+malloc 256
+free 1
+free 3
+malloc 512
+dump
+stats
