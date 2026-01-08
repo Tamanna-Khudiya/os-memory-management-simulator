@@ -438,6 +438,6 @@ See the `LICENSE` file for full details.
 ⭐ **Star this repository if you found it helpful!**
 
 ## Demo Vedio
-<img width="1888" height="838" alt="image" src="https://github.com/user-attachments/assets/d49219fc-00cb-4e64-97be-a59c0c3e61ea" />
+https://drive.google.com/file/d/1dZk5STpgYdBwctgfYe75fnpXUt2G9IPO/view?usp=sharing
 
 
