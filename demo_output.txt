@@ -1,0 +1,103 @@
+================================================================================
+                    MEMORY SIMULATOR - DEMO INPUT/OUTPUT
+================================================================================
+
+-----------------------------
+DEMO INPUT COMMANDS:
+-----------------------------
+init memory 1024
+set allocator first_fit
+malloc 100
+malloc 200
+stats
+dump
+free 2
+dump
+stats
+cache init 5 10
+cache put 100 42
+cache access 100
+cache access 200
+cache stats
+exit
+
+================================================================================
+DEMO OUTPUT:
+================================================================================
+
+Memory Management Simulator
+> Memory initialized with size 1024
+> Allocator changed
+> Allocated block id=1 at address=0x0
+> Allocated block id=2 at address=0x64
+> ----- Memory Stats -----
+Total memory: 1024
+Used memory: 300
+Free memory: 724
+Memory utilization: 29.2969%
+External fragmentation:0%
+> ----- Memory Dump -----
+[0x0 - 0x63] USED (id=1)
+[0x64 - 0x12b] USED (id=2)
+[0x12c - 0x3ff] FREE
+> Block 2 freed
+> ----- Memory Dump -----
+[0x0 - 0x63] USED (id=1)
+[0x64 - 0x3ff] FREE
+> ----- Memory Stats -----
+Total memory: 1024
+Used memory: 100
+Free memory: 924
+Memory utilization: 9.76562%
+External fragmentation: 0%
+> Cache initialized (L1=5, L2=10)
+>Inserted address 100 with value 42
+> Cache HIT, value = 42
+> Cache HIT, value = 200
+> ----- Cache Statistics -----
+L1 Hits: 1 | L1 Misses: 1
+L2 Hits: 0 | L2 Misses: 1
+Main Memory Accesses: 1
+> Exiting simulator...
+
+================================================================================
+DEMO EXPLANATION:
+================================================================================
+
+1. init memory 1024
+   → Initializes 1024 bytes of physical memory
+
+2. set allocator first_fit
+   → Sets allocation strategy to First Fit
+
+3. malloc 100 / malloc 200
+   → Allocates two blocks (id=1 at 0x0, id=2 at 0x64)
+
+4. stats
+   → Shows: 300 bytes used, 724 free, 29.3% utilization
+
+5. dump
+   → Displays memory layout with allocated and free blocks
+
+6. free 2
+   → Frees block id=2, memory coalesces
+
+7. dump
+   → Shows merged free block after coalescing
+
+8. cache init 5 10
+   → Initializes 2-level cache (L1=5, L2=10 entries)
+
+9. cache put 100 42
+   → Inserts data into cache
+
+10. cache access 100
+    → L1 HIT (data found in fast L1 cache)
+
+11. cache access 200
+    → L1 MISS → L2 MISS → Memory access (data loaded into cache)
+
+12. cache stats
+    → Shows cache hit/miss statistics
+
+================================================================================

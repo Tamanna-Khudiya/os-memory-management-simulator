@@ -2,7 +2,8 @@
 
 A **C++ based Operating System Memory Management Simulator** that demonstrates how an operating system manages **physical memory allocation, deallocation, fragmentation, and basic cache behavior**.
 
-This project is intended for **educational purposes** and simulates core OS memory-management concepts in **user space**, without implementing a real OS kernal.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![C++17](https://img.shields.io/badge/C++-17-blue.svg)](https://en.cppreference.com/w/cpp/17)
 
 ---
 
@@ -20,539 +21,171 @@ The project focuses on **algorithmic correctness, clarity, and learning**, rathe
 
 ### 1. Physical Memory Simulation
 
-- Simulated contiguous block of **physical memory** with configurable size (e.g., 1 KB, 4 KB, etc.). 
-- Memory is dynamically divided based on allocation requests rather than fixed partitions.  
-- Internal representation uses explicit metadata to track allocated and free blocks. 
+- Simulated contiguous block of **physical memory** with configurable size
+- Memory is dynamically divided based on allocation requests
+- Internal representation uses explicit metadata to track allocated and free blocks
 
-#### Allocation Strategies
+### 2. Allocation Strategies
 
-The simulator supports a **variable-size allocator** with the following strategies: 
+The simulator supports three allocation algorithms:
 
-- **First Fit** – choose the first free block that is large enough. 
-- **Best Fit** – choose the smallest free block that can satisfy the request.  
-- **Worst Fit** – choose the largest free block to reduce future fragmentation. 
+| Strategy | Description | Time Complexity |
+|----------|-------------|-----------------|
+| **First Fit** | Allocates the first free block that is large enough | O(n) |
+| **Best Fit** | Allocates the smallest free block that can satisfy the request | O(n) |
+| **Worst Fit** | Allocates the largest available free block | O(n) |
 
-On each `malloc`-like operation, the simulator:
+### 3. Memory Coalescing
 
-- Searches for a suitable free block based on the selected strategy. 
-- Splits blocks when needed and updates metadata. 
+When a block is freed, adjacent free blocks are automatically merged:
 
-On each `free` operation, the simulator:
+```cpp
+// Merge with next block if free
+if (next != blocks.end() && next->free) {
+    current.size += next.size;
+    blocks.erase(next);
+}
 
-- Marks the block as free. 
-- **Automatically coalesces** adjacent free blocks to reduce external fragmentation.
+// Merge with previous block if free
+if (prev != blocks.begin() && prev->free) {
+    prev.size += current.size;
+    blocks.erase(current);
+}
+```
 
-#### Metrics and Statistics
+### 4. Two-Level Cache System
 
-The simulator tracks and can report: 
+- **L1 Cache**: Fast, small, first-level cache
+- **L2 Cache**: Larger, second-level cache
+- **FIFO Replacement**: First-In-First-Out eviction policy
 
-- Total, used, and free memory.  
-- Largest free block size.  
-- Internal and external fragmentation.  
-- Allocation success / failure rate and memory utilization (where implemented).  
+### 5. Statistics and Metrics
 
+The simulator tracks:
+- Total, used, and free memory
+- Memory utilization percentage
+- External fragmentation percentage
 
+---
 
-### 2. Command-Line Interface
-
-The simulator exposes a simple CLI-style interface to interact with the memory model.
-
-Typical operations (names/format may differ depending on your implementation):
-
-- Initialize memory:
-  - `memsim init <memory_size>` – set up the physical memory size (e.g., `memsim init 1024`).
-- Select allocation strategy:
-  - `memsim set allocator firstfit|bestfit|worstfit`.
-- Allocate memory:
-  - `memsim malloc <size>` – allocate a block and print its id and starting address. 
-- Free memory:
-  - `memsim free <block_id>` – free the block with the given id and coalesce if possible.
-- Dump / inspect memory:
-  - `memsim dump` – show allocated and free regions along with basic statistics.
-
-You can adapt the exact command names here to match your actual implementation.
-
-
-
-### 3. Basic Cache Simulation
-
-In addition to heap-like memory allocation, the simulator models a **basic level CPU cache hierarchy** (for example, L1 and L2).
-
-Configurable parameters per level:
-
-- Cache size (number of lines / bytes).  
-- Block size.  
-- Associativity (direct-mapped or set-associative, depending on your implementation).  
-- Replacement policy: at minimum **FIFO**; optional policies such as LRU/LFU can be added later. 
-
-For each memory access, the simulator:
-
-- Checks cache levels in order (e.g., L1 → L2 → main memory). 
-- Records hits and misses at each level. 
-- Updates cache state according to the chosen replacement policy.
-
-Reported cache statistics can include:
-
-- Hits and misses per cache level.  
-- Hit ratio / miss ratio.  
-- Effective access behavior (miss penalties if modeled).  
-
-
-
-## 🧩 Planned / Optional Extensions
-
-These are **defined in the project design** but not implemented in this repository yet; they are good candidates for future work. 
-
-- **Buddy Allocation System**  
-  - Power-of-two memory sizes, free lists per block size, recursive splitting and buddy coalescing.
-
-- **Virtual Memory and Paging**  
-  - Virtual address space, page tables, page faults, and page replacement strategies (FIFO, LRU, Clock, etc.). 
-  - Integration with cache: virtual address → page table → physical address → cache → memory. 
-
-
-
-## 🧩 Core Subsystems
-
-### 1️⃣ Physical Memory Manager
-- Simulates a contiguous region of physical memory
-- Maintains a list of memory blocks
-- Tracks allocated and free regions
-- Ensures memory blocks never overlap
-
-
-
-### 2️⃣ Allocation Engine
-- Implements First Fit, Best Fit, and Worst Fit algorithms
-- Searches free blocks based on selected strategy
-- Splits blocks when allocating smaller portions
-- Merges adjacent free blocks after deallocation
-
-
-
-### 3️⃣ Fragmentation & Statistics Module
-- Computes internal fragmentation
-- Computes external fragmentation
-- Tracks:
-  - Total memory
-  - Used memory
-  - Free memory
-  - Memory utilization
-  - Allocation success and failure
-
-
-
-### 4️⃣ Command-Line Interface (CLI)
-- Accepts user commands interactively
-- Displays allocation results and memory layout
-- Provides real-time statistics and diagnostics
-
-
-
-<h2> 🔄 Data Flow </h2>
-The following sequence describes how a memory request is handled:
-
-<pre>
-  User Command
-   ↓
-Command Validation
-   ↓
-Allocation / Deallocation Request
-   ↓
-Allocator Strategy Selection
-   ↓
-Free Block Search
-   ↓
-Block Split / Merge
-   ↓
-Memory State Update
-   ↓
-Statistics Update
-   ↓
-Output to User
-
-</pre>
-
-
-
-## ⚙️ Installation
+## 🚀 Quick Start
 
 ### Prerequisites
+
 - **C++17 compatible compiler** (g++, clang++, or MSVC)
-- **GNU Make** (optional but recommended)
 
+### Compilation
 
+```bash
+# Windows (with g++)
+g++ -std=c++17 -o memsim src/main.cpp src/memory.cpp src/allocator.cpp src/cache.cpp
 
-
-<h2>📂 Project Structure</h2>
-
-```text
-os-memory-management-simulator/
-├── docs/
-│   └── Design_and_Implementation_of_a_Memory_Management_Simulator.pdf
-├── include/
-│   ├── allocator.h        
-│   ├── cache.h           
-│   ├── memory.h          
-│   └── stats.h            
-├── src/
-│   ├── allocator.cpp      
-│   ├── cache.cpp          
-│   ├── memory.cpp        
-│   ├── stats.cpp          
-│   └── main.cpp           
-├── tests/                 
-├── .gitignore
-├── LICENSE
-├── memsim.exe            
-└── README.md              
-
+# Linux/macOS
+g++ -std=c++17 -o memsim src/main.cpp src/memory.cpp src/allocator.cpp src/cache.cpp
 ```
 
+### Running the Simulator
 
+```bash
+# Windows
+memsim.exe
 
-
-## 🎨 Design Principles
-
-### Core Assumptions
-
-1. **Simulated Memory**  
-   All memory is simulated in user space. No real memory pointers are returned to the user.
-
-2. **Zero-Based Addressing**  
-   All memory addresses are treated as offsets starting from `0`.
-
-3. **External Metadata**  
-   Allocation metadata (block size, status, IDs) is stored separately from the simulated memory.
-
-4. **Deterministic Behavior**  
-   Given the same sequence of commands, the simulator always produces the same results.
-
-5. **Behavioral Model**  
-   This project is a **memory management simulator**, not an actual operating system kernel.
-
-
-
-### Invariants
-
-- **Memory Conservation**  
-  Total memory size remains constant throughout execution.
-
-- **No Overlaps**  
-  Allocated and free memory blocks never overlap.
-
-- **Complete Coverage**  
-  The sum of all block sizes always equals the total memory size.
-
-- **Consistent State**  
-  Internal data structures remain valid after every operation.
-
-- **Unique Block IDs**  
-  Every allocated memory block has a unique identifier.
-
-
-
-### Development Approach
-
-- **Incremental Implementation**  
-  Features were added step-by-step and tested individually.
-
-- **Correctness First**  
-  Algorithmic correctness was prioritized over performance optimizations.
-
-- **Modular Design**  
-  Clear separation between allocation logica, memory representation, cache handling, and statistics.
-
-- **Test-Driven Validation**  
-  Allocation and deallocation behavior was tested using multiple scenarios.
-
-- **Readable & Maintainable Code**  
-  Emphasis on clarity and simplicity for educational understanding.
-
-
-## 📦 Dependencies
-
-### Build Dependencies
-
-- **CMake 3.10+**
-- **C++17 compliant compiler** (GCC / Clang / MSVC)
-
-
-
-### Runtime Dependencies
-
-- **C++ Standard Library (STL)**  
-  - `<vector>` — Dynamic arrays for memory block storage  
-  - `<list>` — Linked list representation of memory blocks  
-  - `<unordered_map>` — Tracking allocated blocks by ID  
-  - `<cstddef>, <cstdint>` — Standard data types  
-  - `<iostream>` — Input/output and logging  
-  - `<cmath>` — Mathematical utilities (e.g., size calculations)
-
-
-No external third-party libraries are required.
-
-
-
-## 🔍 Key Algorithms
-
-### Physical Memory Allocation
-
-The simulator implements classical **dynamic memory allocation strategies**.
-All strategies operate on a list of memory blocks and run in **O(n)** time,
-where *n* is the number of memory blocks.
-
-
-
-#### First Fit — **O(n)**
-Allocates the **first free block** that is large enough to satisfy the request.
-
-```text
-for each block:
-    if block is free and block.size >= requested_size:
-        allocate from this block
-        break
+# Linux/macOS
+./memsim
 ```
 
-#### Best Fit — **O(n)**
-Allocates the **smallest free block** that can satisfy the request.
+---
 
-```text
-best = null
-for each block:
-    if block is free and block.size >= requested_size:
-        if best is null or block.size < best.size:
-            best = block
+## 📖 Usage Guide
 
-```
+### Basic Commands
 
-#### Worst Fit — **O(n)**
-Allocates the **largest available free block**.
+| Command | Description |
+|---------|-------------|
+| `init memory <size>` | Initialize memory with specified size |
+| `malloc <size>` | Allocate a memory block |
+| `free <block_id>` | Free an allocated block |
+| `dump` | Display memory layout |
+| `stats` | Show memory statistics |
+| `set allocator <strategy>` | Change allocation strategy |
 
-```text
-worst = null
-for each block:
-    if block is free and block.size >= requested_size:
-        if worst is null or block.size > worst.size:
-            worst = block
+### Cache Commands
 
-```
+| Command | Description |
+|---------|-------------|
+| `cache init <l1_size> <l2_size>` | Initialize two-level cache |
+| `cache put <address> <value>` | Insert data into cache |
+| `cache access <address>` | Access data through cache |
+| `cache display` | Show cache contents |
+| `cache stats` | Display cache statistics |
 
-### Cache Access
-
-The cache subsystem uses a **First-In First-Out (FIFO)** replacement policy.
-When the cache is full and a new block must be inserted, the **oldest cache entry**
-(the one that entered first) is evicted.
-
-FIFO is simple to implement and helps demonstrate basic cache behavior,
-though it does not consider access frequency or recency.
-
-
-
-#### Cache Read Operation — **O(1)**
-
-```text
-if address exists in cache:
-    record cache hit
-    return cached data
-else:
-    record cache miss
-    if cache is full:
-        evict oldest cache entry (FIFO)
-    load data from memory
-    insert data into cache
-    return data
-```
-
-#### Cache Write Operation — **O(1)**
-
-```text
-write data to memory
-if address exists in cache:
-    update cache entry
-else:
-    if cache is full:
-        evict oldest cache entry (FIFO)
-    insert updated data into cache
+### Example Session
 
 ```
+> init memory 1024
+Memory initialized with size 1024
 
+> malloc 100
+Allocated block id=1 at address=0x0
 
-## 🧪 Testing and Validation
+> malloc 200
+Allocated block id=2 at address=0x64
 
-This section describes how the memory management simulator was tested for
-correctness, consistency, and expected behavior based on controlled input
-patterns and output verification.
+> dump
+----- Memory Dump -----
+[0x0 - 0x63] USED (id=1)
+[0x64 - 0x10b] USED (id=2)
+[0x10c - 0x3ff] FREE
 
+> free 1
+Block 1 freed
 
+> stats
+----- Memory Stats -----
+Total memory: 1024
+Used memory: 200
+Free memory: 824
+Memory utilization: 19.5312%
+External fragmentation: 0%
 
-### Physical Memory Allocator Tests
-
-The memory allocator component was tested using multiple allocation and
-deallocation scenarios to ensure correct memory behavior.
-
-#### Test Scenarios
-- **Sequential allocations** of varying sizes
-- **Randomized allocations and deallocations**
-- **Deallocation patterns** (free in different orders)
-- **Boundary conditions** (full memory use, no free space)
-- **Reuse of freed blocks** to verify coalescing
-
-#### Validation Criteria
-- Memory is allocated only when free space is sufficient
-- Freed blocks are correctly marked and reused
-- Adjacent free blocks are coalesced to reduce fragmentation
-- Allocated blocks never overlap
-- Total memory size remains consistent
-
-
-
-### Fragmentation Metrics Verification
-
-After each allocation and deallocation operation, fragmentation
-measurements were verified for correctness.
-
-#### Checks Performed
-- Internal fragmentation is tracked after allocation
-- External fragmentation reflects the distribution of free blocks
-- Coalescing reduces external fragmentation as expected
-- Memory utilization statistics update correctly
-
-
-
-### Cache-Related Tests (if implemented)
-
-If the cache subsystem is enabled (via `cache.h` / `cache.cpp`), simple tests
-were performed to validate basic cache behavior.
-
-#### Test Scenarios
-- Repeated access to the **same address** to generate cache hits
-- Accessing **new addresses** to trigger cache misses
-- Mixed access patterns to verify hit/miss count
-
-#### Validation Criteria
-- Cache hits and misses are recorded accurately
-- Cache hit ratio is computed correctly
-- Cache data does not corrupt memory state
-
-
-
-
-### Integration Tests
-
-The integration between allocator, memory, and statistics components was
-validated through combined operations.
-
-#### Checks Performed
-- Allocator and memory manager remain consistent under long command sequences
-- Statistics reflect the combined effects of multiple operations
-- No memory corruption occurs during interdependent operations
-
-
-
-### Manual Testing
-
-Since there is no automated test suite in this version, manual testing was
-used extensively:
-
-- Commands like `malloc` and `free` were used in multiple sequences
-- Output of `dump memory` was visually inspected
-- Statistics output was compared with expected values
-- Repeated tests produced deterministic results
-
-
-
-### Known Limitations
-
-- No automated test framework is currently integrated
-- Performance benchmarking is not included
-- Detailed stress testing is not present
-
-Overall, the test cases provide confidence in the correctness of the
-simulator for typical memory management scenarios.
-
-
-## 🧾 Example Test Commands and Expected Output
-
-The following examples demonstrate typical test cases used to validate
-memory allocation, deallocation, fragmentation handling, and statistics
-reporting.
-
-
-### Test Case 1: Initialize Memory and Allocate Blocks
-
-**Commands**
-```text
-init memory 1024
-set allocator first_fit
-malloc 100
-malloc 200
+> exit
 ```
 
-**Expected Output**
-```text
-Memory initialized with size 1024 bytes
-Allocator set to First Fit
+---
 
-Allocated block id=1 at address=0x0000 (size=100)
-Allocated block id=2 at address=0x0064 (size=200)
+## 🏗️ Architecture
+
+### Core Components
+
 ```
-
-### Test Case 2: Free a Block and Verify Coalescing
-
-**Commands**
-```text
-free 1
-dump memory
-```
-
-**Expected Output**
-```text
-Block id=1 freed successfully
-
-[0x0000 - 0x0063] FREE
-[0x0064 - 0x012B] USED (id=2)
-[0x012C - 0x03FF] FREE
-```
-
-### Test Case 3: Reuse Freed Memory
-**Commands**
-```text
-malloc 50
-dump memory
-```
-
-**Expected Output**
-```text
-Allocated block id=3 at address=0x0000 (size=50)
-
-[0x0000 - 0x0031] USED (id=3)
-[0x0032 - 0x0063] FREE
-[0x0064 - 0x012B] USED (id=2)
-[0x012C - 0x03FF] FREE
-```
-
-### Test Case 4: Fragmentation and Statistics
-**Commands**
-```text
-stats
-```
-
-**Expected Output**
-```text
-Total Memory: 1024 bytes
-Used Memory: 250 bytes
-Free Memory: 774 bytes
-
-Internal Fragmentation: 0 bytes
-External Fragmentation: <calculated percentage>
-Memory Utilization: <calculated percentage>
+┌─────────────────────────────────────────────────────────┐
+│                    Memory Simulator                      │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐  │
+│  │   Memory    │  │  Allocator  │  │ TwoLevelCache   │  │
+│  │             │  │             │  │                 │  │
+│  │ - totalSize │  │ - First Fit │  │ - L1 Cache      │  │
+│  │ - blocks    │  │ - Best Fit  │  │ - L2 Cache      │  │
+│  │             │  │ - Worst Fit │  │ - FIFO Policy   │  │
+│  └─────────────┘  └─────────────┘  └─────────────────┘  │
+└─────────────────────────────────────────────────────────┘
 ```
 
 ### Data Structures
 
 - **Memory**: `std::list<Block>` - Linked list of memory blocks
 - **Cache**: `std::unordered_map<int, int>` + `std::queue<int>` - Hash map for O(1) access with FIFO ordering
+
+### Block Structure
+
+```cpp
+struct Block {
+    int start;      // Starting address of the block
+    int size;       // Size of the block in bytes
+    bool free;      // true if block is free, false if allocated
+    int id;         // Block ID (-1 if free)
+};
+```
 
 ---
 
@@ -575,75 +208,143 @@ memory-simulator/
 │   ├── cache.cpp               # Cache implementation
 │   ├── memory.cpp              # Memory management implementation
 │   └── main.cpp                # CLI interface
-└── tests/                       # Test files (if any)
+└── tests/
+    ├── test_cases.txt          # Test cases
+    ├── expected_output.txt     # Expected outputs
+    └── test_runner.cpp         # Test runner
 ```
 
 ---
 
 ## 🔍 Key Algorithms
 
-### Allocation Strategies
+### First Fit Algorithm — O(n)
 
-All strategies operate in **O(n)** time where n is the number of memory blocks.
+Allocates the **first free block** that is large enough to satisfy the request.
 
 ```cpp
-// First Fit - find first suitable block
-for (auto& block : blocks) {
-    if (block.free && block.size >= requested_size) {
-        allocate(block);
-        break;
+for (auto it = blocks.begin(); it != blocks.end(); ++it) {
+    if (it->free && it->size >= size) {
+        // Allocate from this block
+        it->start += size;
+        it->size -= size;
+        return allocated.id;
     }
 }
+```
 
-// Best Fit - find smallest suitable block
+### Best Fit Algorithm — O(n)
+
+Allocates the **smallest free block** that can satisfy the request.
+
+```cpp
 auto best = blocks.end();
 for (auto it = blocks.begin(); it != blocks.end(); ++it) {
-    if (it->free && it->size >= requested_size) {
-        if (best == blocks.end() || it->size < best->size)
+    if (it->free && it->size >= size) {
+        if (best == blocks.end() || it->size < best->size) {
             best = it;
+        }
     }
 }
+```
 
-// Worst Fit - find largest suitable block
+### Worst Fit Algorithm — O(n)
+
+Allocates the **largest available free block**.
+
+```cpp
 auto worst = blocks.end();
 for (auto it = blocks.begin(); it != blocks.end(); ++it) {
-    if (it->free && it->size >= requested_size) {
-        if (worst == blocks.end() || it->size > worst->size)
+    if (it->free && it->size >= size) {
+        if (worst == blocks.end() || it->size > worst->size) {
             worst = it;
+        }
     }
 }
 ```
 
 ### Memory Coalescing
 
-When freeing a block, adjacent free blocks are automatically merged:
+When a block is freed, adjacent free blocks are automatically merged to reduce fragmentation.
 
 ```cpp
-// Merge with next block if free
-if (next != blocks.end() && next->free) {
-    current.size += next.size;
-    blocks.erase(next);
-}
+void freeBlock(Memory &mem, int id) {
+    for (auto it = blocks.begin(); it != blocks.end(); ++it) {
+        if (!it->free && it->id == id) {
+            it->free = true;
+            it->id = -1;
 
-// Merge with previous block if free
-if (prev != blocks.begin() && prev->free) {
-    prev.size += current.size;
-    blocks.erase(current);
+            // Merge with next block
+            auto next = it;
+            ++next;
+            if (next != blocks.end() && next->free) {
+                it->size += next->size;
+                blocks.erase(next);
+            }
+
+            // Merge with previous block
+            if (it != blocks.begin()) {
+                auto prev = it;
+                --prev;
+                if (prev->free) {
+                    prev->size += it->size;
+                    blocks.erase(it);
+                }
+            }
+            return;
+        }
+    }
 }
 ```
 
 ### Cache FIFO Replacement
 
+When the cache is full, the oldest entry is evicted.
+
 ```cpp
 void put(int key, int value) {
-    if (data.size() >= capacity) {
-        // Evict oldest entry
-        int oldestKey = fifo.front();
-        fifo.pop();
-        data.erase(oldestKey);
+    if (contains(key)) {
+        data[key] = value;
+        return;
     }
+
+    if ((int)data.size() == capacity) {
+        int oldKey = fifo.front();
+        fifo.pop();
+        data.erase(oldKey);
+    }
+
     data[key] = value;
     fifo.push(key);
+}
+```
+
+### Two-Level Cache Access
+
+```cpp
+int get(int key) {
+    // Check L1 first
+    if (L1.contains(key)) {
+        l1Hits++;
+        return L1.get(key);
+    }
+
+    l1Misses++;
+
+    // Check L2
+    if (L2.contains(key)) {
+        l2Hits++;
+        int value = L2.get(key);
+        L1.put(key, value);  // Promote to L1
+        return value;
+    }
+
+    l2Misses++;
+    memoryAccesses++;
+    int value = key;  // Simulate memory access
+    L2.put(key, value);
+    L1.put(key, value);
+    return value;
 }
 ```
 
@@ -659,6 +360,21 @@ The simulator has been tested with:
 - ✅ Fragmentation analysis
 - ✅ Cache hit/miss behavior
 - ✅ Allocation failure handling
+- ✅ Invalid free requests
+
+### Running Tests
+
+```bash
+# Compile test runner
+g++ -std=c++17 -o test_runner tests/test_runner.cpp
+
+# Run tests
+./test_runner
+
+# Or test manually
+g++ -std=c++17 -o memsim src/main.cpp src/memory.cpp src/allocator.cpp src/cache.cpp
+./memsim < tests/test_cases.txt
+```
 
 ---
 
@@ -699,7 +415,7 @@ You are free to:
 - Modify and distribute the project
 - Build upon the project for academic or personal use
 
-See the `LICENSE` file in the repository for full license details.
+See the `LICENSE` file for full details.
 
 ---
 
@@ -709,7 +425,8 @@ See the `LICENSE` file in the repository for full license details.
 - Academic textbooks and online learning platforms for reference material
 - Open-source OS simulation projects that inspired project structure
 - GitHub community for documentation and best practices
-- Friends and peers for feedback and testing support
+
+---
 
 ## 📧 Contact
 
@@ -719,3 +436,4 @@ See the `LICENSE` file in the repository for full license details.
 ---
 
 ⭐ **Star this repository if you found it helpful!**
+
