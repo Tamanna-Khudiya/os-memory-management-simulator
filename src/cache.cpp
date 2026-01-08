@@ -72,7 +72,10 @@ int TwoLevelCache::get(int key) {
 
     l2Misses++;
     memoryAccesses++;
-    return -1; 
+    int value = key;
+    L2.put(key, value);
+    L1.put(key, value);
+    return value; 
 }
 
 void TwoLevelCache::put(int key, int value) {
