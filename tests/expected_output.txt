@@ -1,8 +1,7 @@
 # Expected Output for Memory Management Simulator Tests
 
-================================================================================
+
 TEST CASE 1: Initialize Memory and Basic Allocation
-================================================================================
 Memory initialized with size 1024
 Allocator changed
 Allocated block id=1 at address=0x0
@@ -14,9 +13,8 @@ Free memory: 724
 Memory utilization: 29.2969%
 External fragmentation: 0%
 
-================================================================================
+
 TEST CASE 2: Free Memory and Coalescing
-================================================================================
 Memory initialized with size 1024
 Allocated block id=1 at address=0x0
 Allocated block id=2 at address=0x64
@@ -28,26 +26,23 @@ Block 2 freed
 [0xc8 - 0x13b] USED (id=3)
 [0x13c - 0x3ff] FREE
 
-================================================================================
+
 TEST CASE 3: Best Fit Allocation Strategy
-================================================================================
 Memory initialized with size 2048
 Allocator changed
 Allocated (Best Fit) id=1 at address=0x0
 Allocated (Best Fit) id=2 at address=0xc8
 Allocated (Best Fit) id=3 at address=0x190
 
-================================================================================
+
 TEST CASE 4: Worst Fit Allocation Strategy
-================================================================================
 Memory initialized with size 2048
 Allocator changed
 Allocated (Worst Fit) id=1 at address=0x0
 Allocated (Worst Fit) id=2 at address=0xc8
 
-================================================================================
+
 TEST CASE 5: Cache Operations
-================================================================================
 Cache initialized (L1=5, L2=10)
 Inserted address 100 with value 42
 Cache HIT, value = 42
@@ -57,22 +52,19 @@ L1 Hits: 2 | L1 Misses: 1
 L2 Hits: 0 | L2 Misses: 1
 Main Memory Accesses: 1
 
-================================================================================
+
 TEST CASE 6: Allocation Failure
-================================================================================
 Memory initialized with size 512
 Allocation failed: Not enough memory
 
-================================================================================
+
 TEST CASE 7: Invalid Free Request
-================================================================================
 Memory initialized with size 1024
 Allocated block id=1 at address=0x0
 Invalid free request: block id not found
 
-================================================================================
+
 TEST CASE 8: Fragmentation Analysis
-================================================================================
 Memory initialized with size 2048
 Allocated block id=1 at address=0x0
 Allocated block id=2 at address=0x1f4
@@ -85,18 +77,16 @@ Free memory: 1048
 Memory utilization: 48.8281%
 External fragmentation: 0%
 
-================================================================================
+
 TEST CASE 9: Reuse of Freed Blocks
-================================================================================
 Memory initialized with size 1024
 Allocated block id=1 at address=0x0
 Allocated block id=2 at address=0x64
 Block 1 freed
 Allocated block id=3 at address=0x0
 
-================================================================================
+
 TEST CASE 10: Mixed Cache Operations
-================================================================================
 Cache initialized (L1=3, L2=5)
 Inserted address 10 with value 100
 Inserted address 20 with value 200
