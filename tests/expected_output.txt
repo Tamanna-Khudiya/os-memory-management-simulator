@@ -1,6 +1,9 @@
 # Expected Output for Memory Management Simulator Tests
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 540b7c219c96fef156b4db7b3fe10a320d5049dd
 TEST CASE 1: Initialize Memory and Basic Allocation
 Memory initialized with size 1024
 Allocator changed
